@@ -1,22 +1,31 @@
 {
-  "name": "Grupo2",
+  "name": "grupo23_olc2_dic21",
   "version": "1.0.0",
   "description": "Proyecto Compiladores 2, Grupo 2",
   "main": "index.js",
   "scripts": {
-    "build": "echo ========Traduciendo TypeScripts======== && tsc && echo ========Traduccion exitosa========",
-    "gramaticaXML": "echo ========Generando gramaticaXML======== && jison ./Gramatica/gramaticaXML.jison && echo ========generacion exitosa========" ,
-    "gramaticaXPath": "echo ========Generando gramaticaXPath======== && jison ./Gramatica/gramaticaXPath.jison && echo ========generacion exitosa========" ,
-    "gramaticas": "jison ./Gramatica/gramaticaXML.jison && jison ./Gramatica/gramaticaXPath.jison",
-    "copiarGramaticaXML": "echo ========administrando Archivos XML======== && npx rimraf dist/Gramatica/gramaticaXML.js && copyfiles gramaticaXML.js dist/Gramatica && npx rimraf gramaticaXML.js && echo ========finaliza administrador XML========",
-    "copiarGramaticaXPath": "echo ========administrando Archivos XPath======== && npx rimraf dist/Gramatica/gramaticaXPath.js && copyfiles gramaticaXPath.js dist/Gramatica && npx rimraf gramaticaXPath.js && ========echo finaliza administrador XPath========",
-    "copiarGramaticas": "npm run copiarGramaticaXML && npm run copiarGramaticaXPath",
-    "correrGramaticas" : "npm run gramaticas && npm run copiarGramaticas",
-    "full-build":  "echo ========Corriendo full build======== && npm run build && npm run correrGramaticas && echo ========full build finalizado========"
+    "build": "echo ========Generando Scripts======== && tsc && echo ========Traduccion exitosa========",
+    "gramatica": "echo ========Generando gramatica======== && jison ./Gramatica/Quetzal.jison && echo ========generacion exitosa========",
+    "copiarGramatica": "echo ========administrando Archivos XML======== && npx rimraf dist/Gramatica/Quetzal.js && copyfiles Quetzal.js dist/Gramatica && npx rimraf Quetzal.js && echo ========finaliza administrador XML========",
+    "correrGramatica": "npm run gramatica && npm run copiarGramatica",
+    "full-build": "echo ========Full Build======== && npm run build && npm run correrGramatica && echo ========Finalizado========"
   },
-  "author": "Grupo 2",
-  "license": "ISC",
+  "author": "Diego Molina - Erick Valenzuela",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^15.9.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/di3gini/-COMPI2-P1_DIC21.git"
+  },
+  "keywords": [
+    "olc2",
+    "quetzal",
+    "dic21"
+  ],
+  "bugs": {
+    "url": "https://github.com/di3gini/-COMPI2-P1_DIC21/issues"
+  },
+  "homepage": "https://github.com/di3gini/-COMPI2-P1_DIC21#readme"
 }
