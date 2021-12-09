@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "echo ========Generando Scripts======== && tsc && echo ========Traduccion exitosa========",
-    "gramatica": "echo ========Generando gramatica======== && jison ./Gramatica/Quetzal.jison && echo ========generacion exitosa========",
-    "copiarGramatica": "echo ========administrando Archivos XML======== && npx rimraf dist/Gramatica/Quetzal.js && copyfiles Quetzal.js dist/Gramatica && npx rimraf Quetzal.js && echo ========finaliza administrador XML========",
+    "gramatica": "echo ========Generando gramatica======== && jison ./dist/Gramatica/Quetzal.jison && echo ========generacion exitosa========",
+    "copiarGramatica": "echo ========administrando Archivos Quetzal======== && npx rimraf dist/Gramatica/Quetzal.js && copyfiles Quetzal.js dist/Gramatica && npx rimraf Quetzal.js && echo ========finaliza administrador Quetzal========",
     "correrGramatica": "npm run gramatica && npm run copiarGramatica",
     "full-build": "echo ========Full Build======== && npm run build && npm run correrGramatica && echo ========Finalizado========"
   },
