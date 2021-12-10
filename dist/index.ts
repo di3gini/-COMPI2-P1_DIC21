@@ -9,11 +9,11 @@ function analizarProyecto(instruccionesJava:any){
 function ejecutarJava(instrucciones:any){
     agregarLinea("Analizando Java");
 
-    const entornoGlobal:Entorno = new Entorno(null);
-    const ast:AST = new AST(instrucciones);
+    const entornoGlobal: Entorno = new Entorno(null);
+    const ast:AST = new Ast(instrucciones);
 
     instrucciones.forEach((element:Instruccion) => {
-        element.ejecutar(entornoGlobal,ast);
+        element.ejecutar(ast, entornoGlobal);
     });
 }
 
