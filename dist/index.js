@@ -1,5 +1,6 @@
 import { SymbolsTable } from "./core/SymbolsTable/SymbolsTable";
 import { Tree } from "./core/SymbolsTable/Tree";
+let instruccionesQuetzal;
 var consola = "";
 function analizarProyecto(instruccionesJava) {
     consola = "";
@@ -11,7 +12,7 @@ function ejecutarJava(instrucciones) {
     let TSGlobal = new SymbolsTable("Global");
     let ast = new Tree(instrucciones);
     instrucciones.forEach((element) => {
-        element.setInstrucctions(ast);
+        element.ejecutar(instrucciones);
     });
 }
 function agregarLinea(texto) {
