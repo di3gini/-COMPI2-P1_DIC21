@@ -5,6 +5,9 @@ import { Type } from "../SymbolsTable/Type";
 import { Primitive } from "../Objects/Primitive";
 import { SymbolsTable } from "../SymbolsTable/SymbolsTable";
 import { stringify } from "querystring";
+import { ASTNode } from "../Abstract/ASTNode";
+import { Tree } from "../SymbolsTable/Tree";
+
 
 class Print extends ASTNode{
     row: number;

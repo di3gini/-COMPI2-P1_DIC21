@@ -1,4 +1,5 @@
 import { ASTReportNode } from "../Abstract/ASTReportNode";
+import { ASTNode } from "../Abstract/ASTNode";
 class Print extends ASTNode {
     constructor(expresion, row, colunm) {
         super();

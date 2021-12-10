@@ -3,6 +3,9 @@ import { SymbolsTable } from "../../SymbolsTable/SymbolsTable";
 import { ExceptionObj } from "../../SymbolsTable/Exception";
 import { ASTReportNode } from "../../Abstract/ASTReportNode";
 import { Primitive } from "../../Objects/Primitive";
+import { ASTNode } from "../../Abstract/ASTNode";
+import { Tree } from "../../SymbolsTable/Tree";
+
 class Plus extends ASTNode {
 
     operator: ArithmethicOperator;
