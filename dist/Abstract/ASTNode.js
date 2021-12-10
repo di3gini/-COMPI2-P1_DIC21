@@ -1,0 +1,3 @@
+class ASTNode {
+}
+export { ASTNode };

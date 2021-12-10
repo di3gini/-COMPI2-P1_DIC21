@@ -1,13 +1,6 @@
 class Tree {
-
-    instrucctions: any;
-    functions: {[key: string]: any} = {};
-    exceptions: any;
-    output: string;
-    globalTS: any;
-    counter: number;
-    symRepo: any;
-    constructor(instrucctions:any) {
+    constructor(instrucctions) {
+        this.functions = {};
         this.instrucctions = instrucctions;
         this.exceptions = [];
         this.output = "";
@@ -15,65 +8,56 @@ class Tree {
         this.counter = 0;
         this.symRepo = {};
     }
-
-    addSymbolReport(symbol:any){
+    addSymbolReport(symbol) {
         this.symRepo.push(symbol);
     }
-
-    getSymbolReport(){
+    getSymbolReport() {
         return this.symRepo;
     }
-
     getInstrucctions() {
         return this.instrucctions;
     }
-    setInstrucctions(instrucctions:any) {
+    setInstrucctions(instrucctions) {
         this.instrucctions = instrucctions;
     }
     getFunctions() {
         return this.functions;
     }
-    getFunction(name:string) {
+    getFunction(name) {
         if (name in this.functions) {
             return this.functions[name];
         }
         return null;
     }
-
-    addFunction(name:string, functionNode:any) {
+    addFunction(name, functionNode) {
         if (name in this.functions) {
             throw new Error("Function " + name + " already exists");
-        }else{
+        }
+        else {
             this.functions[name] = functionNode;
         }
     }
-
     getExceptions() {
         return this.exceptions;
     }
     getOutput() {
         return this.output;
     }
-    setOutput(output:string) {
+    setOutput(output) {
         this.output = output;
     }
-
-    updateOutput(output:string) {
+    updateOutput(output) {
         this.output += output;
     }
-
-    updateOutputLine(output:string) {
+    updateOutputLine(output) {
         this.output += output + "\n";
     }
-
-    setGlobalTS(globalTS:any) {
+    setGlobalTS(globalTS) {
         this.globalTS = globalTS;
-    } 
-
+    }
     getGlobalTS() {
         return this.globalTS;
-    }   
-
+    }
     getTextExceptions() {
         let text = "";
         for (let exception of this.exceptions) {
@@ -82,5 +66,4 @@ class Tree {
         return text;
     }
 }
-
-export {Tree};
+export { Tree };
