@@ -1,4 +1,3 @@
-"use strict";
 class Tree {
     constructor(instrucctions) {
         this.functions = {};
@@ -67,4 +66,4 @@ class Tree {
         return text;
     }
 }
-export {Tree};
+export { Tree };

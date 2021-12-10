@@ -6,7 +6,7 @@ class SymbolsTable {
     table: {[key: string]: any} = {}
     previous: any;
     ambit: any;
-    constructor(ambit: any, previous = null) {
+    constructor(ambit: any, previous: any = null) {
         this.previous = previous;
         this.ambit = ambit;
     }

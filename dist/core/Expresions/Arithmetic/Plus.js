@@ -1,5 +1,6 @@
 import { ArithmethicOperator } from "../../SymbolsTable/Type";
 import { ASTReportNode } from "../../Abstract/ASTReportNode";
+import { ASTNode } from "../../Abstract/ASTNode";
 class Plus extends ASTNode {
     constructor(left, right, row, column) {
         super();

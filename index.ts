@@ -1,4 +1,6 @@
+import { SymbolsTable } from "./core/SymbolsTable/SymbolsTable";
 import { Tree } from "./core/SymbolsTable/Tree";
+
 
 var consola = "";
 
@@ -11,7 +13,8 @@ function analizarProyecto(instruccionesJava:any){
 function ejecutarJava(instrucciones:any){
     agregarLinea("Analizando Java");
 
-    const ast: Tree = new Tree(instrucciones);
+    let TSGlobal: SymbolsTable= new SymbolsTable("Global");
+    let ast: Tree = new Tree(instrucciones);
 
     instrucciones.forEach((element: Tree) => {
         element.setInstrucctions(ast)
