@@ -67,3 +67,4 @@ class Tree {
         return text;
     }
 }
+export {Tree};

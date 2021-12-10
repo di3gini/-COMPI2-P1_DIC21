@@ -1,3 +1,5 @@
+import { Tree } from "./core/SymbolsTable/Tree";
+
 var consola = "";
 
 function analizarProyecto(instruccionesJava:any){
@@ -9,11 +11,10 @@ function analizarProyecto(instruccionesJava:any){
 function ejecutarJava(instrucciones:any){
     agregarLinea("Analizando Java");
 
-    const entornoGlobal: Entorno = new Entorno(null);
-    const ast:AST = new Ast(instrucciones);
+    const ast: Tree = new Tree(instrucciones);
 
-    instrucciones.forEach((element:Instruccion) => {
-        element.ejecutar(ast, entornoGlobal);
+    instrucciones.forEach((element: Tree) => {
+        element.setInstrucctions(ast)
     });
 }
 
