@@ -1,5 +1,10 @@
+import { Type } from "../SymbolsTable/Type";
+
 class Primitive extends Object {
-    constructor(type, value) {
+    value: any;
+    type: Type;
+    
+    constructor(type: Type, value: any) {
         super();
         this.value = value;
         this.type = type;
@@ -14,4 +19,5 @@ class Primitive extends Object {
         return this.value;
     }
 }
+
 export { Primitive };

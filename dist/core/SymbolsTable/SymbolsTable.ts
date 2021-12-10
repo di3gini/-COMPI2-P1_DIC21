@@ -1,23 +1,30 @@
+import { SymbolElement } from "./Symbol";
 import { ExceptionObj } from "./Exception";
+import { Object } from "../Abstract/Object";
+
 class SymbolsTable {
-    constructor(ambit, previous = null) {
-        this.table = {};
+    table: {[key: string]: any} = {}
+    previous: any;
+    ambit: any;
+    constructor(ambit: any, previous: any = null) {
         this.previous = previous;
         this.ambit = ambit;
     }
+
     getAmbit() {
         return this.ambit;
     }
-    setTable(symbol) {
+
+    setTable(symbol: SymbolElement) : any{
         if (symbol.id in this.table) {
-            throw new ExceptionObj("Semantico", "El identificador " + symbol.id +
-                " ya ha sido declarado", symbol.row, symbol.column);
-        }
-        else {
+            throw new ExceptionObj("Semantico", "El identificador " + symbol.id + 
+            " ya ha sido declarado", symbol.row , symbol.column);
+        } else {
             this.table[symbol.id] = symbol;
         }
     }
-    getTable(id) {
+
+    getTable(id: string) : any{
         let Currtable = this;
         while (Currtable.previous != null) {
             if (id in Currtable.table) {
@@ -27,7 +34,8 @@ class SymbolsTable {
         }
         return null;
     }
-    getTableGlb(symbol) {
+
+    getTableGlb(symbol: SymbolElement) : any{
         let Currtable = this;
         while (Currtable.previous != null) {
             Currtable = Currtable.previous;
@@ -37,26 +45,28 @@ class SymbolsTable {
         }
         return null;
     }
-    getGlobal() {
+
+    getGlobal() : any{
         let Currtable = this;
         while (Currtable.previous != null) {
             Currtable = Currtable.previous;
         }
         return Currtable;
     }
-    updateTable(symbol) {
+
+    updateTable(symbol: SymbolElement) : any{
         let current = this;
         while (current.previous != null) {
             if (symbol.id in current.table) {
                 current.table[symbol.id] = symbol;
                 return null;
-            }
-            else {
+            } else{
                 current = current.previous;
             }
         }
-        this.table[symbol.id] = symbol;
+        this.table[symbol.id] = symbol
         return null;
     }
 }
+
 export { SymbolsTable };

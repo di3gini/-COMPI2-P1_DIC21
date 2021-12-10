@@ -5,13 +5,13 @@
 /* Definición Léxica */
 
 %{
-	const { Object } = require ( "../core/Abstract/Object" );
+	const { Object } = require ( "../../core/Abstract/Object" );
 	const { ExceptionObj } = require ( "../core/SymbolsTable/Exception" );
 	const { ASTNode } = require ( "../core/Abstract/ASTNode" );
 	const { Print } = require ( "../core/Instrucctions/Print" );
 	const { Primitive } = require ( "../core/Objects/Primitive" );
 	const { Plus } = require ( "../core/Expresions/Arithmetic/Plus" );
-	const { Type, ArithmeticOperator, RelationalOperator, LogicalOperator } = require ( "../core/Objects/Type" );
+	const { Type, ArithmeticOperator, RelationalOperator, LogicalOperator } = require ( "../core/SymbolsTable/Type" );
 %}
 
 %lex

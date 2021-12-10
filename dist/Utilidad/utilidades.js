@@ -62,6 +62,6 @@ function destroyClickedElement(event) {
 }
 
 function analizar(){
-    intruccionesQuetzal = Quetzal.parse(editorCodigo.getValue());
-    analizarProyecto(instruccionesQuetzal);
+    
+    analizarProyecto(editorCodigo.getValue());
 }
