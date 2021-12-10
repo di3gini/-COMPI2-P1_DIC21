@@ -60,3 +60,7 @@ function guardarArchivo(tipo) {
 function destroyClickedElement(event) {
     document.body.removeChild(event.target);
 }
+
+function analizar(){
+    analizarProyecto(instrucciones);
+}
