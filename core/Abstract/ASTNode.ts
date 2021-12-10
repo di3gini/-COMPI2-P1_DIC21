@@ -3,3 +3,5 @@ abstract class ASTNode {
 
     public abstract getNode(): any;
 }
+
+export {ASTNode};
