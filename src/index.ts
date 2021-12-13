@@ -17,6 +17,7 @@ compileBtn?.addEventListener('click', () => {
     parser.parse(data)
   } catch {
     console.log("Error al analizar")
+    console.log(console.error())
   }
 })
 
