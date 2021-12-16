@@ -1,6 +1,7 @@
+import { ObjectAbs } from "../Abstract/Object";
 import { Type } from "../SymbolsTable/Type";
 
-class Primitive extends Object {
+class Primitive extends ObjectAbs {
     value: any;
     type: Type;
     

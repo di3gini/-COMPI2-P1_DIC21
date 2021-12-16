@@ -1,6 +1,6 @@
 import { Type } from "../SymbolsTable/Type";
 
-abstract class Object {
+abstract class ObjectAbs {
     abstract toString(): string;
 
     abstract getValue(): any;
@@ -8,4 +8,4 @@ abstract class Object {
     abstract getType(): Type;
 }
 
-export { Object };
+export { ObjectAbs };

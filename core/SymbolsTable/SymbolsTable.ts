@@ -1,6 +1,6 @@
 import { SymbolElement } from "./Symbol";
 import { ExceptionObj } from "./Exception";
-import { Object } from "../Abstract/Object";
+import { ObjectAbs } from "../Abstract/Object";
 
 class SymbolsTable {
     table: {[key: string]: any} = {}

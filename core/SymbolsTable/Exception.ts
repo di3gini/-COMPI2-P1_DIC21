@@ -1,4 +1,4 @@
-import {Object} from '../Abstract/Object';
+import {ObjectAbs} from '../Abstract/Object';
 import {Type} from '../SymbolsTable/Type';
 
 class ExceptionObj extends Object {

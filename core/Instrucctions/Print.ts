@@ -1,4 +1,4 @@
-import { Object } from "../Abstract/Object";
+import { ObjectAbs } from "../Abstract/Object";
 import { ASTReportNode } from "../Abstract/ASTReportNode";
 import { ExceptionObj } from "../SymbolsTable/Exception";
 import { Type } from "../SymbolsTable/Type";
