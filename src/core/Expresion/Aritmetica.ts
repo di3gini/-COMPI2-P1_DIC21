@@ -1,5 +1,5 @@
 import { Expression } from "../Abstract/Expresion";
-import { Retorno, RetornoC3D, Type } from "../Abstract/Retorno";
+import { Retorno, Type } from "../Abstract/Retorno";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
 
@@ -24,7 +24,7 @@ export class Arithmetic extends Expression {
         const leftValue = this.left.execute(environment);
         const rightValue = this.right.execute(environment);
         let result: Retorno;
-        const tipoDominante = this.tipoDominante(leftValue.type, rightValue.type);
+       
         //SUMA
         if (this.type == ArithmeticOption.PLUS) {
 
