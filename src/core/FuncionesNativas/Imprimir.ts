@@ -19,16 +19,6 @@ export class Print extends Instruccion {
 
         if (value.type == Type.NUMBER || value.type == Type.STRING || value.type == Type.BOOLEAN) {
 
-            cadenaSinFormato = "[";
-
-            for (let i of value.value) {
-                cadenaSinFormato = cadenaSinFormato + i + ",";
-            }
-
-            cadenaSinFormato = cadenaSinFormato + "]";
-
-
-        } else {
 
             cadenaSinFormato = value["value"].toString();
 
@@ -41,6 +31,17 @@ export class Print extends Instruccion {
             if (cadenaSinFormato.includes("\\r")) {
                 cadenaSinFormato = cadenaSinFormato.replace(/\\r/g, "\r");
             }
+
+
+        } else {
+
+            cadenaSinFormato = "[";
+
+            for (let i of value.value) {
+                cadenaSinFormato = cadenaSinFormato + i + ",";
+            }
+
+            cadenaSinFormato = cadenaSinFormato + "]";
 
         }
 

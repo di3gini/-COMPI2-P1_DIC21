@@ -2,7 +2,7 @@ import { Expression } from "../Abstract/Expresion";
 import { Retorno, RetornoC3D, Type } from "../Abstract/Retorno";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
-import { Temporal } from "../C3D/Temporal";
+
 
 export enum ArithmeticOption {
     PLUS,
@@ -19,213 +19,6 @@ export class Arithmetic extends Expression {
         super(line, column);
     }
 
-    public C3D(environment: Environment, Temp: Temporal): RetornoC3D {
-
-        const leftValue = this.left.C3D(environment, Temp);
-        const rightValue = this.right.C3D(environment, Temp);
-        let result: RetornoC3D;
-
-        const tipoDominante = this.tipoDominante(leftValue.type, rightValue.type);
-
-        //SUMA
-        if (this.type == ArithmeticOption.PLUS) {
-
-            if (tipoDominante == Type.STRING) {
-
-                let TempRetorno = Temp.NuevoTemporal();
-                //SI ALGUN OPERANDO ES NUMERICO
-                if (leftValue.type == Type.NUMBER) {
-
-
-                    let temporal = Temp.NuevoTemporal();
-
-                    Temp.EscribirC3D(`${temporal} = H;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 1;`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${leftValue.CD3};`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`P = P + 0;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`NumericoACadena();`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`P = P - 0;\n`, environment.TipoEntorno());
-
-
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 1;`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${temporal};\n`, environment.TipoEntorno());
-
-
-
-                } else if (rightValue.type == Type.NUMBER) {
-
-                    let temporal = Temp.NuevoTemporal();
-
-                    Temp.EscribirC3D(`${temporal} = H;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 1;`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${rightValue.CD3};`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`P = P + 0;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`NumericoACadena();`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`P = P - 0;\n`, environment.TipoEntorno());
-
-
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 2;`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${temporal};\n`, environment.TipoEntorno());
-
-                }
-
-
-                //SI ALGUN OPERANDO ES BOOLEANO 
-                if (leftValue.type == Type.BOOLEAN) {
-                    let boolTemp: string = Temp.NuevoTemporal();
-                    Temp.EscribirC3D(`${boolTemp} = H;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 1;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${leftValue.CD3};\n`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`P = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`TrueOrFalse();`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`P = P - ${environment.ObtenerPeso()};\n`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 1;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${boolTemp};\n`, environment.TipoEntorno());
-
-
-                }
-                else if (rightValue.type == Type.BOOLEAN) {
-
-                    let boolTemp: string = Temp.NuevoTemporal();
-                    Temp.EscribirC3D(`${boolTemp} = H;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 1;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${rightValue.CD3};\n`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`P = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`TrueOrFalse();`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`P = P - ${environment.ObtenerPeso()};\n`, environment.TipoEntorno());
-
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + ${environment.ObtenerPeso()};`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 2;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${boolTemp};\n`, environment.TipoEntorno());
-
-                }
-
-                Temp.EscribirC3D(`${TempRetorno} = H;\n`, environment.TipoEntorno());
-
-                //SI ALGUN OPERANDO ES STRING
-                if (leftValue.type == Type.STRING) {
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + 0;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 1;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${leftValue.CD3};\n`, environment.TipoEntorno());
-                }
-
-                if (rightValue.type == Type.STRING) {
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + 0;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 2;`, environment.TipoEntorno());
-                    Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${rightValue.CD3};\n`, environment.TipoEntorno());
-                }
-
-
-                Temp.EscribirC3D(`P = P + 0;`, environment.TipoEntorno());
-                Temp.EscribirC3D(`ConcatenarCadenas();`, environment.TipoEntorno());
-                Temp.EscribirC3D(`P = P - 0;\n`, environment.TipoEntorno());
-
-                result = { value: (leftValue.value.toString() + rightValue.value.toString()), type: Type.STRING, CD3: TempRetorno };
-
-            }
-            else if (tipoDominante == Type.NUMBER) {
-
-
-                Temp.EscribirC3D(`${Temp.NuevoTemporal()}=${leftValue.CD3}+${rightValue.CD3};`, environment.TipoEntorno());
-                result = { value: (leftValue.value + rightValue.value), type: Type.NUMBER, CD3: Temp.TemporalActual() };
-
-            }
-            else {
-                let Errores = localStorage.getItem("ErroresEjecucion");
-                Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
-                localStorage.setItem("ErroresEjecucion", Errores);
-            }
-
-        }
-
-        //RESTA
-        else if (this.type == ArithmeticOption.MINUS) {
-            if (tipoDominante == Type.STRING) {
-
-                let Errores = localStorage.getItem("ErroresEjecucion");
-                Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' - ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
-                localStorage.setItem("ErroresEjecucion", Errores);
-            }
-
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()}=${leftValue.CD3}-${rightValue.CD3};`, environment.TipoEntorno());
-            result = { value: (leftValue.value - rightValue.value), type: Type.NUMBER, CD3: Temp.TemporalActual() };
-        }
-
-
-        //MULTIPLICACION
-        else if (this.type == ArithmeticOption.TIMES) {
-
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()}=${leftValue.CD3}*${rightValue.CD3};`, environment.TipoEntorno());
-            result = { value: (leftValue.value * rightValue.value), type: Type.NUMBER, CD3: Temp.TemporalActual() };
-
-        }
-
-        //POTENCIA
-        else if (this.type == ArithmeticOption.POT) {
-         
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()}= P+ 0;`, environment.TipoEntorno());
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()}=${Temp.TemporalAnterior()}+ 1;`, environment.TipoEntorno());
-            Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}]=${leftValue.CD3};\n`, environment.TipoEntorno());
-
-
-
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()}= P+ 0;`, environment.TipoEntorno());
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()}=${Temp.TemporalAnterior()}+ 2;`, environment.TipoEntorno());
-            Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}]=${rightValue.CD3};\n`, environment.TipoEntorno());
-
-            Temp.EscribirC3D(`P = P + 0;`, environment.TipoEntorno());
-            Temp.EscribirC3D(`Potencia();`, environment.TipoEntorno());
-            Temp.EscribirC3D(`P = P - 0;\n`, environment.TipoEntorno());
-
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + 0;`, environment.TipoEntorno());
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()} = Stack[(int)${Temp.TemporalAnterior()}];\n`, environment.TipoEntorno());
-
-
-            result = { value: (Math.pow(leftValue.value, rightValue.value)), type: Type.NUMBER, CD3: Temp.TemporalActual() };
-        }
-
-        //UNARIO
-        else if (this.type == ArithmeticOption.UNARIO) {
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()}=0-${rightValue.CD3};`, environment.TipoEntorno());
-            result = { value: (rightValue.value * (-1)), type: Type.NUMBER, CD3: Temp.TemporalActual() };
-        }
-
-        //DIVISION
-        else {
-            if (rightValue.value == 0) {
-                let Errores = localStorage.getItem("ErroresEjecucion");
-                Errores = Errores + "   " + "Error Semantico:" + " No se puede dividir entre 0" + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
-                localStorage.setItem("ErroresEjecucion", Errores);
-            }
-
-            Temp.EscribirC3D(`${Temp.NuevoTemporal()}=${leftValue.CD3}/${rightValue.CD3};`, environment.TipoEntorno());
-            result = { value: (leftValue.value / rightValue.value), type: Type.NUMBER, CD3: Temp.TemporalActual() };
-        }
-
-
-        return result;
-
-    }
-
-
-
-
     public execute(environment: Environment): Retorno {
 
         const leftValue = this.left.execute(environment);
@@ -235,15 +28,15 @@ export class Arithmetic extends Expression {
         //SUMA
         if (this.type == ArithmeticOption.PLUS) {
 
-            if (tipoDominante == Type.STRING)
-                result = { value: (leftValue.value.toString() + rightValue.value.toString()), type: Type.STRING };
-            else if (tipoDominante == Type.NUMBER) {
+            if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
                 result = { value: (leftValue.value + rightValue.value), type: Type.NUMBER };
-
+            }
+            else if ((leftValue.type == Type.DECIMAL && rightValue.type == Type.DECIMAL) ||
+                (leftValue.type == Type.DECIMAL && rightValue.type == Type.NUMBER)|| 
+                (leftValue.type == Type.NUMBER && rightValue.type == Type.DECIMAL)) {
+                    result = { value: (leftValue.value + rightValue.value), type: Type.NUMBER };
             }
             else {
-                //throw new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type);
-
                 let Errores = localStorage.getItem("ErroresEjecucion");
                 Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
                 localStorage.setItem("ErroresEjecucion", Errores);
@@ -253,34 +46,72 @@ export class Arithmetic extends Expression {
 
 
         else if (this.type == ArithmeticOption.MINUS) {
-            if (tipoDominante == Type.STRING) {
-                //throw new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type);
-                //console.log("Error Semantico");
+            if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
+                result = { value: (leftValue.value - rightValue.value), type: Type.NUMBER };
+            }
+            else if ((leftValue.type == Type.DECIMAL && rightValue.type == Type.DECIMAL) ||
+                (leftValue.type == Type.DECIMAL && rightValue.type == Type.NUMBER)|| 
+                (leftValue.type == Type.NUMBER && rightValue.type == Type.DECIMAL)) {
+                    result = { value: (leftValue.value - rightValue.value), type: Type.DECIMAL };
+            }
+            else {
                 let Errores = localStorage.getItem("ErroresEjecucion");
                 Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
                 localStorage.setItem("ErroresEjecucion", Errores);
             }
-            result = { value: (leftValue.value - rightValue.value), type: Type.NUMBER };
         }
 
 
 
         else if (this.type == ArithmeticOption.TIMES) {
-            result = { value: (leftValue.value * rightValue.value), type: Type.NUMBER };
+            if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
+                result = { value: (leftValue.value * rightValue.value), type: Type.NUMBER };
+            }
+            else if ((leftValue.type == Type.DECIMAL && rightValue.type == Type.DECIMAL) ||
+                (leftValue.type == Type.DECIMAL && rightValue.type == Type.NUMBER)|| 
+                (leftValue.type == Type.NUMBER && rightValue.type == Type.DECIMAL)) {
+                    result = { value: (leftValue.value * rightValue.value), type: Type.DECIMAL };
+            }
+            else {
+                let Errores = localStorage.getItem("ErroresEjecucion");
+                Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
+                localStorage.setItem("ErroresEjecucion", Errores);
+            }
         }
 
 
         else if (this.type == ArithmeticOption.POT) {
-
-            result = { value: (Math.pow(leftValue.value, rightValue.value)), type: Type.NUMBER };
+            if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
+                result = { value: (Math.pow(leftValue.value, rightValue.value)), type: Type.NUMBER };
+            }
+            else if ((leftValue.type == Type.DECIMAL && rightValue.type == Type.DECIMAL) ||
+                (leftValue.type == Type.DECIMAL && rightValue.type == Type.NUMBER)|| 
+                (leftValue.type == Type.NUMBER && rightValue.type == Type.DECIMAL)) {
+                    result = { value: (Math.pow(leftValue.value, rightValue.value)), type: Type.DECIMAL };
+            }
+            else {
+                let Errores = localStorage.getItem("ErroresEjecucion");
+                Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
+                localStorage.setItem("ErroresEjecucion", Errores);
+            }
         }
 
         else if (this.type == ArithmeticOption.UNARIO) {
 
-            result = { value: (rightValue.value * (-1)), type: Type.NUMBER };
+            if (rightValue.type == Type.NUMBER) {
+                result = { value: (leftValue.value * -1), type: Type.NUMBER };
+            }
+            else if (rightValue.type == Type.DECIMAL) {
+                result = { value: (leftValue.value * -1), type: Type.DECIMAL };
+            }
+            else {
+                let Errores = localStorage.getItem("ErroresEjecucion");
+                Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
+                localStorage.setItem("ErroresEjecucion", Errores);
+            }
         }
-        else {
-            if (rightValue.value == 0) {
+        else if (this.type == ArithmeticOption.DIV) {
+            if (rightValue.value == 0 || rightValue.value == 0.0) {
                 //throw new Error_(this.line, this.column, "Semantico", "No se puede dividir entre 0");
                 //console.log("Error Semantico");
 
@@ -288,7 +119,21 @@ export class Arithmetic extends Expression {
                 Errores = Errores + "   " + "Error Semantico:" + " No se puede dividir entre 0" + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
                 localStorage.setItem("ErroresEjecucion", Errores);
             }
-            result = { value: (leftValue.value / rightValue.value), type: Type.NUMBER };
+            else {
+                if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
+                    result = { value: (leftValue.value / rightValue.value), type: Type.NUMBER };
+                }
+                else if ((leftValue.type == Type.DECIMAL && rightValue.type == Type.DECIMAL) ||
+                    (leftValue.type == Type.DECIMAL && rightValue.type == Type.NUMBER)|| 
+                    (leftValue.type == Type.NUMBER && rightValue.type == Type.DECIMAL)) {
+                        result = { value: (leftValue.value / rightValue.value), type: Type.DECIMAL };
+                }
+                else {
+                    let Errores = localStorage.getItem("ErroresEjecucion");
+                    Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
+                    localStorage.setItem("ErroresEjecucion", Errores);
+                }
+            }
         }
         return result;
     }

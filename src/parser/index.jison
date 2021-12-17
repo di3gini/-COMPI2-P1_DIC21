@@ -575,7 +575,7 @@ EXPRESION: menos EXPRESION %prec Umenos
          ;
 
 //COMPLEMENTOS DE PRODUCCIONES
-LITERAL:  decimal   {$$=new Literal($1,this._$.first_line ,this._$.first_column,0);}
+LITERAL:  decimal   {$$=new Literal($1,this._$.first_line ,this._$.first_column,9);}
         | numerico  {$$=new Literal($1,this._$.first_line ,this._$.first_column,0);}
         | cadena    {$$=new Literal($1.replace(/\"/g,""),this._$.first_line ,this._$.first_column,1);}
         | verdadero {$$=new Literal($1,this._$.first_line ,this._$.first_column,2);}

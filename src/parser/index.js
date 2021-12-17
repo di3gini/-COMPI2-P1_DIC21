@@ -1098,113 +1098,109 @@ case 18:return 41
 break;
 case 19:return 42
 break;
-case 20:return 25
+case 20:return 80
 break;
-case 21:return 27 
+case 21:return 24
 break;
-case 22:return 80
+case 22:return 32
 break;
-case 23:return 24
+case 23:return 78
 break;
-case 24:return 32
+case 24:return 79
 break;
-case 25:return 78
+case 25:return 101
 break;
-case 26:return 79
+case 26:return 100
 break;
-case 27:return 101
+case 27:return 76
 break;
-case 28:return 100
+case 28:return 77
 break;
-case 29:return 76
+case 29:return 90 
 break;
-case 30:return 77
+case 30:return 'mod'
 break;
-case 31:return 90 
+case 31:return 83
 break;
-case 32:return 'mod'
+case 32:return 84
 break;
-case 33:return 83
+case 33:return 81
 break;
-case 34:return 84
+case 34:return 82
 break;
-case 35:return 81
+case 35:return 85
 break;
-case 36:return 82
+case 36:return 86
 break;
-case 37:return 85
+case 37:return 87
 break;
-case 38:return 86
+case 38:return 88
 break;
-case 39:return 87
+case 39:return 89
 break;
-case 40:return 88
+case 40:return 24
 break;
-case 41:return 89
+case 41:return 34
 break;
-case 42:return 24
+case 42:return 99
 break;
-case 43:return 34
+case 43:return 97
 break;
-case 44:return 99
+case 44:return 98
 break;
-case 45:return 97
+case 45:return 20
 break;
-case 46:return 98
+case 46:return 75
 break;
-case 47:return 20
+case 47:return 25
 break;
-case 48:return 75
+case 48:return 27   
 break;
-case 49:return 25
+case 49:return 29
 break;
-case 50:return 27   
+case 50:return 45
 break;
-case 51:return 29
+case 51:return 47
 break;
-case 52:return 45
+case 52:return 48
 break;
-case 53:return 47
+case 53:return 68
 break;
-case 54:return 48
+case 54:return 70
 break;
-case 55:return 68
+case 55:return 69
 break;
-case 56:return 70
+case 56:return 54
 break;
-case 57:return 69
+case 57:return 53
 break;
-case 58:return 54
+case 58:return 55
 break;
-case 59:return 53
+case 59:return 56
 break;
-case 60:return 55
+case 60:return 57
 break;
-case 61:return 56
+case 61:return 59
 break;
-case 62:return 57
+case 62:return 60
 break;
-case 63:return 59
+case 63:return 71
 break;
-case 64:return 60
+case 64:return 31
 break;
-case 65:return 71
+case 65:return 96
 break;
-case 66:return 31
+case 66:return 5
 break;
-case 67:return 96
-break;
-case 68:return 5
-break;
-case 69:    
+case 67:    
                      
                         LISTADOERRORES = LISTADOERRORES +"   "+ "Error Lexico en la linea: "+ yy_.yylineno+" y columna "+ (yy_.yylloc.last_column+1)+"\n";
                     
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:\/\/.*)/,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/,/^(?:([0-9][.][0-9]))/,/^(?:([0-9]+))/,/^(?:\()/,/^(?:\))/,/^(?:number\b)/,/^(?:boolean\b)/,/^(?:string\b)/,/^(?:void\b)/,/^(?:function\b)/,/^(?:\.)/,/^(?:length\b)/,/^(?:push\b)/,/^(?:pop\b)/,/^(?:\{)/,/^(?:\})/,/^(?:\[)/,/^(?:\])/,/^(?:let\b)/,/^(?:const\b)/,/^(?:\*\*)/,/^(?:;)/,/^(?::)/,/^(?:\*)/,/^(?:\/)/,/^(?:--)/,/^(?:\+\+)/,/^(?:-)/,/^(?:\+)/,/^(?:\?)/,/^(?:%)/,/^(?:>=)/,/^(?:<=)/,/^(?:>)/,/^(?:<)/,/^(?:==)/,/^(?:!=)/,/^(?:&&)/,/^(?:\|\|)/,/^(?:!)/,/^(?:;)/,/^(?:=)/,/^(?:null\b)/,/^(?:true\b)/,/^(?:false\b)/,/^(?:print\b)/,/^(?:graficar_ts\b)/,/^(?:let\b)/,/^(?:const\b)/,/^(?:,)/,/^(?:if\b)/,/^(?:else\b)/,/^(?:switch\b)/,/^(?:break\b)/,/^(?:return\b)/,/^(?:continue\b)/,/^(?:default\b)/,/^(?:case\b)/,/^(?:while\b)/,/^(?:do\b)/,/^(?:for\b)/,/^(?:in\b)/,/^(?:of\b)/,/^(?:type\b)/,/^(?:(([A-Za-zÑñ])|_)(([A-Za-zÑñ])+|([0-9])*|_)*)/,/^(?:"([^\"\n\\\\]|\\"|\\)*")/,/^(?:$)/,/^(?:.)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69],"inclusive":true}}
+rules: [/^(?:\s+)/,/^(?:\/\/.*)/,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/,/^(?:([0-9][.][0-9]))/,/^(?:([0-9]+))/,/^(?:\()/,/^(?:\))/,/^(?:int\b)/,/^(?:boolean\b)/,/^(?:string\b)/,/^(?:void\b)/,/^(?:function\b)/,/^(?:\.)/,/^(?:length\b)/,/^(?:push\b)/,/^(?:pop\b)/,/^(?:\{)/,/^(?:\})/,/^(?:\[)/,/^(?:\])/,/^(?:\*\*)/,/^(?:;)/,/^(?::)/,/^(?:\*)/,/^(?:\/)/,/^(?:--)/,/^(?:\+\+)/,/^(?:-)/,/^(?:\+)/,/^(?:\?)/,/^(?:%)/,/^(?:>=)/,/^(?:<=)/,/^(?:>)/,/^(?:<)/,/^(?:==)/,/^(?:!=)/,/^(?:&&)/,/^(?:\|\|)/,/^(?:!)/,/^(?:;)/,/^(?:=)/,/^(?:null\b)/,/^(?:true\b)/,/^(?:false\b)/,/^(?:print\b)/,/^(?:graficar_ts\b)/,/^(?:let\b)/,/^(?:const\b)/,/^(?:,)/,/^(?:if\b)/,/^(?:else\b)/,/^(?:switch\b)/,/^(?:break\b)/,/^(?:return\b)/,/^(?:continue\b)/,/^(?:default\b)/,/^(?:case\b)/,/^(?:while\b)/,/^(?:do\b)/,/^(?:for\b)/,/^(?:in\b)/,/^(?:of\b)/,/^(?:type\b)/,/^(?:(([A-Za-zÑñ])|_)(([A-Za-zÑñ])+|([0-9])*|_)*)/,/^(?:"([^\"\n\\\\]|\\"|\\)*")/,/^(?:$)/,/^(?:.)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67],"inclusive":true}}
 });
 return lexer;
 })();
