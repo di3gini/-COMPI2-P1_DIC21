@@ -1,8 +1,8 @@
-import { Retorno, RetornoC3D, Type } from "./Retorno";
+import { Retorno, Type } from "./Retorno";
 import { Environment } from "../Simbolo/Entorno";
 import { tipos } from "../Simbolo/TablaTipos";
 import { Nodo_Arbol} from "../Graficar_Arbol/nodo_arbol";
-import { Temporal} from "../C3D/Temporal";
+
 
 export abstract class Expression {
 
