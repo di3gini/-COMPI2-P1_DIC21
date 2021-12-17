@@ -19,7 +19,6 @@ export abstract class Expression {
     public tipoDominante(tipo1: Type, tipo2: Type): Type {
         
         const type = tipos[tipo1][tipo2];
-        //console.log(type);
         return type;
     }
 
