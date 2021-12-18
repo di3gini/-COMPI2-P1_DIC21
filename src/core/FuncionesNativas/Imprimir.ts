@@ -2,7 +2,7 @@ import { Instruccion } from "../Abstract/Instruccion";
 import { Expression } from "../Abstract/Expresion";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol";
-import { Type } from '../Abstract/Retorno';
+import { Type } from '../Abstract/Objeto';
 
 export class Print extends Instruccion {
 

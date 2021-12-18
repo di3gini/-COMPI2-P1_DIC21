@@ -190,78 +190,34 @@ IMPRIMIR : rimprimir parIz EXPRESION parDer pcoma
             }
         ;
 
-//=============================== DECLARACION DE VARIABLES ===============================ok
+//=============================== DECLARACION y ASIGNACION DE VARIABLES ===============================ok
 
 DECLARACION: TIPOS DECLARACION_EXPR pcoma
             {
-                $$=new ListadoDeclaracion($2,this._$.first_line ,this._$.first_column);
+                $$=new ListadoDeclaracion($1, $2,this._$.first_line ,this._$.first_column);
             }
             ;
 
-DECLARACION_EXPR: DECLARACION_EXPR coma IDENTIFICADOR {
+DECLARACION_EXPR: DECLARACION_EXPR coma Identificador{
                     $1.push($3);
                     $$=$1;
                 }
-                | IDENTIFICADOR {
+                | Identificador {
                     $$=[$1];
                 }
                 ;
 
-ASIGNACION: TIPOS IDENTIFICADOR igual EXPRESION pcoma
+ASIGNACION: TIPOS Identificador igual EXPRESION pcoma
             {
                 $$=new Declaration($1,$5,this._$.first_line,this._$.first_column, $3);
             }
-            ;
-
-LETS :  Identificador dospuntos TIPOS
-        {
-            $$=new  Declaration($1, new Literal("null",this._$.first_line ,this._$.first_column,3), this._$.first_line ,this._$.first_column);
-        }                
-     |  Identificador dospuntos TIPOS igual EXPRESION
-        {
-            $$=new  Declaration($1,$5, this._$.first_line ,this._$.first_column,$3);
-        }
-     |  Identificador 
-        {
-            $$=new  Declaration($1,new Literal("null",this._$.first_line ,this._$.first_column,3), this._$.first_line ,this._$.first_column);
-        }                               
-     |  Identificador igual EXPRESION 
-        {
-            $$=new  Declaration($1,$3, this._$.first_line ,this._$.first_column);
-        }
-     |  Identificador dospuntos TIPOS DIMENSION_ARRAY
-     //id,tipo,dimesion[],valores[],linea,columna
-        {
-            $$= new DeclaracionArray($1,$3,$4,[],this._$.first_line ,this._$.first_column);
-        }
-     |  Identificador dospuntos TIPOS DIMENSION_ARRAY igual ASIGNACION_ARRAY 
-        {
-      //id,tipo,dimesion[],valores[],linea,columna      
-            $$= new DeclaracionArray($1,$3,$4,$6,this._$.first_line ,this._$.first_column);
-        }  
-     ;
-
-VARIABLE_CONST: VARIABLE_CONST coma CONSTA 
-                {
-                    $1.push($3);
-                    $$=$1;
-                }
-              | CONSTA 
-                {
-                    $$=[$1];
-                }
-              ;
-
-        //TODO:
-CONSTA : Identificador dospuntos TIPOS igual EXPRESION
-            {
-                $$=new  Declaration($1,$5, this._$.first_line ,this._$.first_column);
-            }
-       | Identificador igual EXPRESION
+            | Identificador igual EXPRESION
             {
                 $$=new  Declaration($1,$3, this._$.first_line ,this._$.first_column);
             }
-       ;                
+            ;
+
+    
 
 //============================== ASIGNACION DE VARIABLES ==============================================
 
