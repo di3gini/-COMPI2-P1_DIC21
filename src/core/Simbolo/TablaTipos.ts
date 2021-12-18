@@ -1,4 +1,4 @@
-import { Type } from "../Abstract/Retorno";
+import { Type } from "../Abstract/Objeto";
 
 export const tipos = [
     [

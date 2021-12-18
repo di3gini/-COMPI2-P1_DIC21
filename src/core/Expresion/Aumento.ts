@@ -1,9 +1,8 @@
 import { Instruccion } from "../Abstract/Instruccion";
 import { Environment } from "../Simbolo/Entorno";
 import { Expression } from "../Abstract/Expresion";
-
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
-import { Type } from "../Abstract/Retorno";
+import { Type } from "../Abstract/Objeto";
 
 
 
@@ -31,11 +30,11 @@ export class Aumento extends Instruccion {
         } else {
             if (value.type == Type.NUMBER || value.type == Type.DECIMAL) {
                 if (this.type == AumentoOption.PLUSPLUS) {
-                    environment.guardar(this.id, value.valor + 1, value.type, this.line, this.column);
+                    environment.setVar(this.id, value.valor + 1, value.type, this.line, this.column);
                     return { value: Number(value.valor + 1), type: value.type }
                 } else if (this.type == AumentoOption.LESSLESS) {
     
-                    environment.guardar(this.id, value.valor - 1, value.type, this.line, this.column);
+                    environment.setVar(this.id, value.valor - 1, value.type, this.line, this.column);
                     return { value: Number(value.valor - 1), type: value.type }
                 }
             } else {

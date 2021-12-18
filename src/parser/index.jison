@@ -192,16 +192,24 @@ IMPRIMIR : rimprimir parIz EXPRESION parDer pcoma
 
 //=============================== DECLARACION DE VARIABLES ===============================ok
 
-DECLARACION: let VARIABLE_LET pcoma {$$=new ListadoDeclaracion($2,this._$.first_line ,this._$.first_column);}
-            | const VARIABLE_CONST  pcoma {$$=new ListadoDeclaracion($2,this._$.first_line ,this._$.first_column);}
+DECLARACION: TIPOS DECLARACION_EXPR pcoma
+            {
+                $$=new ListadoDeclaracion($2,this._$.first_line ,this._$.first_column);
+            }
             ;
 
-VARIABLE_LET: VARIABLE_LET coma LETS {
-                $1.push($3);
-                $$=$1;
-            }
-            | LETS {
-                $$=[$1];
+DECLARACION_EXPR: DECLARACION_EXPR coma IDENTIFICADOR {
+                    $1.push($3);
+                    $$=$1;
+                }
+                | IDENTIFICADOR {
+                    $$=[$1];
+                }
+                ;
+
+ASIGNACION: TIPOS IDENTIFICADOR igual EXPRESION pcoma
+            {
+                $$=new Declaration($1,$5,this._$.first_line,this._$.first_column, $3);
             }
             ;
 
@@ -260,7 +268,6 @@ CONSTA : Identificador dospuntos TIPOS igual EXPRESION
 
 ASIGNACION: Identificador igual EXPRESION pcoma 
             {
-                console.log("asignacion");
                 $$=new Asignacion($1,$3, @1.first_line, @1.first_column);
 
             }

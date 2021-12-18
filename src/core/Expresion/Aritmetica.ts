@@ -1,5 +1,5 @@
 import { Expression } from "../Abstract/Expresion";
-import { Retorno, Type } from "../Abstract/Retorno";
+import { Retorno, Type } from "../Abstract/Objeto";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
 
@@ -112,8 +112,6 @@ export class Arithmetic extends Expression {
         }
         else if (this.type == ArithmeticOption.DIV) {
             if (rightValue.value == 0 || rightValue.value == 0.0) {
-                //throw new Error_(this.line, this.column, "Semantico", "No se puede dividir entre 0");
-                //console.log("Error Semantico");
 
                 let Errores = localStorage.getItem("ErroresEjecucion");
                 Errores = Errores + "   " + "Error Semantico:" + " No se puede dividir entre 0" + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
