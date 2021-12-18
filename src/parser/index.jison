@@ -14,7 +14,6 @@
     const { Logico,LogicalOption} =  require("../core/Expresion/Logico");
     const { Aumento,AumentoOption} = require("../core/Expresion/Aumento");
     const { DoWhile } = require("../core/Instruccion/DoWhile");
-    const { GraficarTS }= require("../core/FuncionesNativas/Graficar_ts");
     const { For} =  require("../core/Instruccion/For");
     const { ForOption,CondicionFor} = require("../core/Instruccion/CondicionFor");
     const { Caso ,CaseOption} = require("../core/Instruccion/Caso");
@@ -27,9 +26,6 @@
     const { CuerpoFuncion} = require("../core/Instruccion/CuerpoFuncion");
     const { Return } = require("../core/Expresion/Return");
     const { DeclaracionArray} = require("../core/Instruccion/DeclaracionArray");
-    const { Length } = require("../core/Expresion/Length");
-    const { Push} = require("../core/Expresion/Push");
-    const { Pop} = require("../core/Expresion/Pop");
     const { AsignacionArray} = require("../core/Instruccion/AsignacionArray");
     const { AccesoArray } = require("../core/Abstract/AccesoArray");
 
@@ -45,7 +41,7 @@
 %option yylineno
 letras = [A-Za-zÑñ]
 digito = [0-9]
-number [0-9]+
+int [0-9]+
 decimal [0-9][.][0-9]
 
 
@@ -55,17 +51,17 @@ decimal [0-9][.][0-9]
 [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/] // comentario multiple líneas
 
 
-{decimal}             return 'decimal'
-{number}              return 'numerico'
+{decimal}             return 'numdecimal'
+{int}                 return 'numerico'
 "("                   return 'parIz'
 ")"                   return 'parDer'
 "int"                 return 'number'
+"decimal"             return 'decimal'
 "boolean"             return 'bolean'
 "string"              return 'string'
 "void"                return 'void'          
 "function"            return 'fun'
 "."                   return "punto"  
-"length"              return "len"
 "push"                return "push"
 "pop"                 return "pop" 
 "{"                   return 'corcheIz'
@@ -98,7 +94,6 @@ decimal [0-9][.][0-9]
 "true"                return 'verdadero'
 "false"               return 'falso'
 "print"               return 'rimprimir'
-"graficar_ts"         return 'graficarts'
 "let"                 return 'let'
 "const"               return 'const'   
 ","                   return 'coma'
@@ -166,7 +161,6 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
             | FOR {$$=$1;}//ok
             | TRANSFERENCIA {$$=$1;}//ok
             | TYPE {$$=$1;}
-            | GRAFICAR_TS {$$=$1;}//ok
             | LLAMADA {$$=$1;}
             |error  { 
                         if(this._$.first_column == 0){
@@ -190,77 +184,36 @@ IMPRIMIR : rimprimir parIz EXPRESION parDer pcoma
             }
         ;
 
-//=============================== DECLARACION DE VARIABLES ===============================ok
+//=============================== DECLARACION y ASIGNACION DE VARIABLES ===============================ok
 
-DECLARACION: let VARIABLE_LET pcoma {$$=new ListadoDeclaracion($2,this._$.first_line ,this._$.first_column);}
-            | const VARIABLE_CONST  pcoma {$$=new ListadoDeclaracion($2,this._$.first_line ,this._$.first_column);}
-            ;
-
-VARIABLE_LET: VARIABLE_LET coma LETS {
-                $1.push($3);
-                $$=$1;
-            }
-            | LETS {
-                $$=[$1];
+DECLARACION: TIPOS DECLARACION_EXPR pcoma
+            {
+                $$=new ListadoDeclaracion($1, $2,this._$.first_line ,this._$.first_column);
             }
             ;
 
-LETS :  Identificador dospuntos TIPOS
-        {
-            $$=new  Declaration($1, new Literal("null",this._$.first_line ,this._$.first_column,3), this._$.first_line ,this._$.first_column);
-        }                
-     |  Identificador dospuntos TIPOS igual EXPRESION
-        {
-            $$=new  Declaration($1,$5, this._$.first_line ,this._$.first_column,$3);
-        }
-     |  Identificador 
-        {
-            $$=new  Declaration($1,new Literal("null",this._$.first_line ,this._$.first_column,3), this._$.first_line ,this._$.first_column);
-        }                               
-     |  Identificador igual EXPRESION 
-        {
-            $$=new  Declaration($1,$3, this._$.first_line ,this._$.first_column);
-        }
-     |  Identificador dospuntos TIPOS DIMENSION_ARRAY
-     //id,tipo,dimesion[],valores[],linea,columna
-        {
-            $$= new DeclaracionArray($1,$3,$4,[],this._$.first_line ,this._$.first_column);
-        }
-     |  Identificador dospuntos TIPOS DIMENSION_ARRAY igual ASIGNACION_ARRAY 
-        {
-      //id,tipo,dimesion[],valores[],linea,columna      
-            $$= new DeclaracionArray($1,$3,$4,$6,this._$.first_line ,this._$.first_column);
-        }  
-     ;
-
-VARIABLE_CONST: VARIABLE_CONST coma CONSTA 
-                {
+DECLARACION_EXPR: DECLARACION_EXPR coma Identificador{
                     $1.push($3);
                     $$=$1;
                 }
-              | CONSTA 
-                {
+                | Identificador {
                     $$=[$1];
                 }
-              ;
+                ;
 
-        //TODO:
-CONSTA : Identificador dospuntos TIPOS igual EXPRESION
+ASIGNACION: TIPOS Identificador igual EXPRESION pcoma
             {
-                $$=new  Declaration($1,$5, this._$.first_line ,this._$.first_column);
+                $$=new Declaration($2,$4,this._$.first_line,this._$.first_column, $1);
             }
-       | Identificador igual EXPRESION
-            {
-                $$=new  Declaration($1,$3, this._$.first_line ,this._$.first_column);
-            }
-       ;                
+            ;
+
+    
 
 //============================== ASIGNACION DE VARIABLES ==============================================
 
 
 ASIGNACION: Identificador igual EXPRESION pcoma 
             {
-                console.log("asignacion");
                 $$=new Asignacion($1,$3, @1.first_line, @1.first_column);
 
             }
@@ -268,11 +221,6 @@ ASIGNACION: Identificador igual EXPRESION pcoma
             {
                 $$=$1;
             }
-          | Identificador punto push parIz EXPRESION parDer pcoma 
-            {
-                $$=new Push($1,$5,@1.first_line, @1.first_column);
-            }
-
           | Identificador llaveizq EXPRESION llaveder igual EXPRESION pcoma
             {
                 console.log("nueva produccion");
@@ -492,15 +440,6 @@ LISTADO_VALORES: LISTADO_VALORES coma CLAVE_VALOR{$$=$1+$2+"\n"+$3;}
 CLAVE_VALOR: Identificador dospuntos TIPOS {$$=$1+$2+$3;}
            ;
 
-
-
-//============================== GRAFICAR TS =================================
-
-GRAFICAR_TS: graficarts parIz parDer pcoma 
-            {
-                $$ = new GraficarTS(this._$.first_line ,this._$.first_column);
-            }
-        ;
 //============================== EXPRESIONES =================================
 
 EXPRESION: menos EXPRESION %prec Umenos 
@@ -567,15 +506,12 @@ EXPRESION: menos EXPRESION %prec Umenos
             {
                  $$= new Ternario($1,$3,$5,this._$.first_line ,this._$.first_column);
             }
-            
-         | EXPRESION punto len {$$=new Length($1,this._$.first_line ,this._$.first_column);}
-         | EXPRESION punto pop parIz parDer {$$=new Pop($1,this._$.first_line ,this._$.first_column);}
          | parIz EXPRESION parDer       {$$ =$2;}
          | LITERAL{ $$=$1;}   
          ;
 
 //COMPLEMENTOS DE PRODUCCIONES
-LITERAL:  decimal   {$$=new Literal($1,this._$.first_line ,this._$.first_column,0);}
+LITERAL:  numdecimal   {$$=new Literal($1,this._$.first_line ,this._$.first_column,9);}
         | numerico  {$$=new Literal($1,this._$.first_line ,this._$.first_column,0);}
         | cadena    {$$=new Literal($1.replace(/\"/g,""),this._$.first_line ,this._$.first_column,1);}
         | verdadero {$$=new Literal($1,this._$.first_line ,this._$.first_column,2);}
@@ -614,6 +550,7 @@ TIPOS:  string {$$=1;}
     |   bolean {$$=2;}
     |   number {$$=0;}
     |   void   {$$=8;}
+    |   decimal {$$=9;}
     |   Identificador {$$=$1;}
     ;
 

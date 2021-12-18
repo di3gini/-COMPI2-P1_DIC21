@@ -45,7 +45,7 @@ compileBtn?.addEventListener('click', () => {
         try {
           if (instr instanceof Funcion) {
 
-            env.guardarFuncion(instr.id, instr);
+            env.setFuncion(instr.id, instr);
             //instr.execute(env);
           }
         } catch (error) {
