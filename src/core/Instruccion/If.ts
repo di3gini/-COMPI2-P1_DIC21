@@ -1,7 +1,7 @@
 import { Instruccion } from "../Abstract/Instruccion";
 import { Expression } from "../Abstract/Expresion";
 import { Environment } from "../Simbolo/Entorno";
-import { Type, Retorno } from "../Abstract/Objeto";
+import { Type } from "../Abstract/Objeto";
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
 
 
@@ -15,7 +15,6 @@ export class If extends Instruccion {
     }
 
     public execute(env: Environment) {
-        //const entornoHijo = new Environment(env);
         const condition = this.condition.execute(env);
 
         if (condition.type != Type.BOOLEAN) {
