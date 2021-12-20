@@ -86,7 +86,6 @@ case 23:
 break;
 case 24:
 
-                console.log("nueva produccion");
                 this.$=new AsignacionArray($$[$0-6],$$[$0-4],$$[$0-1],_$[$0-6].first_line, _$[$0-6].first_column);
             
 break;

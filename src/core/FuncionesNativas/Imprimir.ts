@@ -6,7 +6,7 @@ import { Type } from '../Abstract/Objeto';
 
 export class Print extends Instruccion {
 
-    constructor(private value: Expression, line: number, column: number, code: string) {
+    constructor(private value: Expression, private println: boolean, line: number, column: number, code: string) {
         super(line, column, code);
     }
 
@@ -17,7 +17,8 @@ export class Print extends Instruccion {
         let cadenaFinal;
 
 
-        if (value.type == Type.NUMBER || value.type == Type.STRING || value.type == Type.BOOLEAN) {
+        if (value.type == Type.NUMBER || value.type == Type.STRING || value.type == Type.BOOLEAN 
+            || value.type == Type.DECIMAL || value.type == Type.NULL) {
 
 
             cadenaSinFormato = value["value"].toString();
@@ -48,7 +49,14 @@ export class Print extends Instruccion {
 
 
         cadenaFinal = cadenaSinFormato;
-        terminal = terminal + cadenaFinal + "\n";
+        let finalCadena = "";
+
+        if (this.println) {
+            finalCadena = "\n";
+        } else {
+            finalCadena = " ";
+        }
+        terminal = terminal + cadenaFinal + finalCadena;
         localStorage.setItem("consola", terminal);
 
     }

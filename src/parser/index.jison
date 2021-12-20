@@ -94,6 +94,7 @@ decimal [0-9][.][0-9]
 "true"                return 'verdadero'
 "false"               return 'falso'
 "print"               return 'rimprimir'
+"println"             return 'lrimprimir'
 "let"                 return 'let'
 "const"               return 'const'   
 ","                   return 'coma'
@@ -180,7 +181,11 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
 //================================IMPRIMIR==========================ok
 IMPRIMIR : rimprimir parIz EXPRESION parDer pcoma  
             { 
-                $$ = new Print($3, @1.first_line, @1.first_column,[$1,$2,$3,$4,$5]);
+                $$ = new Print($3, false, @1.first_line, @1.first_column,[$1,$2,$3,$4,$5]);
+            }
+            | lrimprimir parIz EXPRESION parDer pcoma  
+            { 
+                $$ = new Print($3, true, @1.first_line, @1.first_column,[$1,$2,$3,$4,$5]);
             }
         ;
 
@@ -209,7 +214,7 @@ ASIGNACION: TIPOS Identificador igual EXPRESION pcoma
 
     
 
-//============================== ASIGNACION DE VARIABLES ==============================================
+//============================== ASIGNACION DE VARIABLES Y ARRAYS ==============================================
 
 
 ASIGNACION: Identificador igual EXPRESION pcoma 
@@ -223,7 +228,6 @@ ASIGNACION: Identificador igual EXPRESION pcoma
             }
           | Identificador llaveizq EXPRESION llaveder igual EXPRESION pcoma
             {
-                console.log("nueva produccion");
                 $$=new AsignacionArray($1,$3,$6,@1.first_line, @1.first_column);
             }
           ;
