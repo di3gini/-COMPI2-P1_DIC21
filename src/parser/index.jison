@@ -28,6 +28,13 @@
     const { DeclaracionArray} = require("../core/Instruccion/DeclaracionArray");
     const { AsignacionArray} = require("../core/Instruccion/AsignacionArray");
     const { AccesoArray } = require("../core/Abstract/AccesoArray");
+    const { Cos } = require("../core/FuncionesNativas/Cos");
+    const { Sin } = require("../core/FuncionesNativas/Sin");
+    const { Tan } = require("../core/FuncionesNativas/Tan");
+    const { Logarithmic } = require("../core/FuncionesNativas/Log");
+    const { Sqrt } = require("../core/FuncionesNativas/Sqrt");
+    const { Pow } = require("../core/FuncionesNativas/Pow");
+    const { Concat } = require("../core/FuncionesNativas/Concat");
 
     //CANTIDAD DE ERRORES ENCONTRADOS A PARTIR DE QUE ENCUENTRA 1  Y GUARDADNDO EN ERRS  
     let contErr=0;
@@ -68,7 +75,12 @@ decimal [0-9][.][0-9]
 "}"                   return 'corcheDer'
 "["                   return 'llaveizq'
 "]"                   return 'llaveder'
-"pow"                  return 'potencia'
+"pow"                 return 'potencia'
+"sin"                 return 'seno'
+"cos"                 return 'coseno'
+"tan"                 return 'tangente'
+"log10"               return 'logaritmo'
+"sqrt"                return 'raiz'
 ";"                   return 'pcoma'
 ":"                   return 'dospuntos'
 "*"                   return 'por'
@@ -86,6 +98,7 @@ decimal [0-9][.][0-9]
 "=="                  return 'igualacion'
 "!="                  return 'diferente'
 "&&"                  return 'and'
+"&"                   return 'ampersand'
 "||"                  return 'or'
 "!"                   return 'not'
 ";"                   return 'pcoma'
@@ -112,6 +125,7 @@ decimal [0-9][.][0-9]
 "in"                  return 'in'
 'of'                  return 'of'
 "type"                return 'type'
+
 ({letras}|"_")({letras}+|{digito}*|"_")*          return 'Identificador'
 \"([^\"\n\\\\]|\\\"|\\)*\"  	return 'cadena'
 <<EOF>>		          return 'EOF'
@@ -163,7 +177,7 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
             | TRANSFERENCIA {$$=$1;}//ok
             | TYPE {$$=$1;}
             | LLAMADA {$$=$1;}
-            |error  { 
+             |error  { 
                         if(this._$.first_column == 0){
                             LISTADOERRORES= LISTADOERRORES +"   "+ ERRS[0];
                             ERRS=[];   
@@ -502,6 +516,34 @@ EXPRESION: menos EXPRESION %prec Umenos
          | EXPRESION interrogacion EXPRESION dospuntos EXPRESION
             {
                  $$= new Ternario($1,$3,$5,this._$.first_line ,this._$.first_column);
+            }
+         
+         | seno parIz EXPRESION parDer 
+            {
+                $$=new Sin($3,this._$.first_line ,this._$.first_column);
+            }
+        | coseno parIz EXPRESION parDer 
+            {
+                $$=new Cos($3,this._$.first_line ,this._$.first_column);
+            }
+        | tangente parIz EXPRESION parDer 
+            {
+                $$=new Tan($3,this._$.first_line ,this._$.first_column);
+            }
+        | raiz parIz EXPRESION parDer 
+            {
+                $$=new Sqrt($3,this._$.first_line ,this._$.first_column);
+            }
+        | potencia parIz EXPRESION coma EXPRESION parDer 
+            {
+                $$=new Pow($3,$5,this._$.first_line ,this._$.first_column);
+            }
+        | EXPRESION ampersand EXPRESION 
+            {
+                $$=new Concat($1,$3,this._$.first_line ,this._$.first_column);
+            }
+            {
+                $$=$1;
             }
          | parIz EXPRESION parDer       {$$ =$2;}
          | LITERAL{ $$=$1;}   
