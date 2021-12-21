@@ -14,18 +14,13 @@ export class DeclaracionArray extends Instruccion {
 
 
 
-    constructor(id: string, private tipo: Type, Dimension: [], private valores: Expression[], line: number, column: number) {
+    constructor(id: string, private tipo: Type, private valores: Expression[], line: number, column: number) {
         super(line, column);
         this.id = id;
-        this.Dim = Dimension.length;
-
-
     }
 
     public execute(environment: Environment) {
 
-
-        if (this.Dim == 1) {
             if (this.tipo == Type.NUMBER) {
                 //number
                 let arreglo: number[] = [];
@@ -61,16 +56,6 @@ export class DeclaracionArray extends Instruccion {
 
                 environment.setEntornoActual(this.id, arreglo, 42, this.line, this.column);
             }
-
-
-        } else if (this.Dim == 2) {
-
-
-        } else if (this.Dim == 3) {
-
-
-        }
-
     }
 
     public graficar() {

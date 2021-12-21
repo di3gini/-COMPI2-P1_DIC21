@@ -58,7 +58,7 @@ decimal [0-9][.][0-9]
 "int"                 return 'number'
 "decimal"             return 'decimal'
 "boolean"             return 'bolean'
-"string"              return 'string'
+"String"              return 'string'
 "void"                return 'void'          
 "function"            return 'fun'
 "."                   return "punto"  
@@ -68,7 +68,7 @@ decimal [0-9][.][0-9]
 "}"                   return 'corcheDer'
 "["                   return 'llaveizq'
 "]"                   return 'llaveder'
-"**"                  return 'potencia'
+"pow"                  return 'potencia'
 ";"                   return 'pcoma'
 ":"                   return 'dospuntos'
 "*"                   return 'por'
@@ -179,21 +179,34 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
 
 
 //================================IMPRIMIR==========================ok
-IMPRIMIR : rimprimir parIz EXPRESION parDer pcoma  
+IMPRIMIR : rimprimir parIz EXPRESION_IMPR parDer pcoma  
             { 
                 $$ = new Print($3, false, @1.first_line, @1.first_column,[$1,$2,$3,$4,$5]);
             }
-            | lrimprimir parIz EXPRESION parDer pcoma  
+            | lrimprimir parIz EXPRESION_IMPR parDer pcoma  
             { 
                 $$ = new Print($3, true, @1.first_line, @1.first_column,[$1,$2,$3,$4,$5]);
             }
         ;
 
-//=============================== DECLARACION y ASIGNACION DE VARIABLES ===============================ok
+EXPRESION_IMPR : EXPRESION_IMPR coma EXPRESION {
+                    $1.push($3);
+                    $$=$1;
+                }
+                | EXPRESION {
+                    $$=[$1];
+                }
+                ;
+
+//=============================== DECLARACION DE VARIABLES Y ARRAYS ===============================
 
 DECLARACION: TIPOS DECLARACION_EXPR pcoma
             {
                 $$=new ListadoDeclaracion($1, $2,this._$.first_line ,this._$.first_column);
+            }
+            | TIPOS Identificador igual EXPRESION pcoma
+            {
+                $$=new Declaration($2,$4,this._$.first_line,this._$.first_column, $1);
             }
             ;
 
@@ -205,13 +218,6 @@ DECLARACION_EXPR: DECLARACION_EXPR coma Identificador{
                     $$=[$1];
                 }
                 ;
-
-ASIGNACION: TIPOS Identificador igual EXPRESION pcoma
-            {
-                $$=new Declaration($2,$4,this._$.first_line,this._$.first_column, $1);
-            }
-            ;
-
     
 
 //============================== ASIGNACION DE VARIABLES Y ARRAYS ==============================================
@@ -230,22 +236,13 @@ ASIGNACION: Identificador igual EXPRESION pcoma
             {
                 $$=new AsignacionArray($1,$3,$6,@1.first_line, @1.first_column);
             }
+          |  TIPOS llaveizq llaveder Identificador igual LISTADO_ARRAY pcoma
+            {
+                console.log("Entro a declaracion de array");
+            }
           ;
 
 //============================== ARRAYS ======================================
-
-DIMENSION_ARRAY: DIMENSION_ARRAY TAM_ARRAY
-                    {
-                        $1.push($2);
-                        $$=$1;
-                    }
-               | TAM_ARRAY{$$=[$1];}
-               ;
-
-TAM_ARRAY: llaveizq llaveder{$$=0;}
-        ;
-
-
 
 ASIGNACION_ARRAY: llaveizq LISTADO_ARRAY llaveder{$$=$2;}
                 | llaveizq llaveder {$$=0;}
@@ -466,10 +463,6 @@ EXPRESION: menos EXPRESION %prec Umenos
             {
                 $$=new Arithmetic($1,$3,ArithmeticOption.DIV,this._$.first_line ,this._$.first_column);
             }        
-         | EXPRESION potencia EXPRESION
-            {
-                $$=new Arithmetic($1,$3,ArithmeticOption.POT,this._$.first_line ,this._$.first_column);
-            } 
          | EXPRESION mayor EXPRESION 
             {
                  $$=new Relational($1,$3,RelationalOption.GREATER,this._$.first_line ,this._$.first_column);
