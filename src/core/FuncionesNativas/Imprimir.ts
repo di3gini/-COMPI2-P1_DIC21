@@ -6,63 +6,74 @@ import { Type } from '../Abstract/Objeto';
 
 export class Print extends Instruccion {
 
-    constructor(private value: Expression, line: number, column: number, code: string) {
+    constructor(private value: Expression[], private println: boolean, line: number, column: number, code: string) {
         super(line, column, code);
     }
 
     public execute(environment: Environment) {
-        const value = this.value.execute(environment);
+
         let terminal = localStorage.getItem("consola");
         let cadenaSinFormato = "";
-        let cadenaFinal;
+        let cadenaFinal = "";
+        for (let expresion of this.value) {
+
+            const value = expresion.execute(environment);
 
 
-        if (value.type == Type.NUMBER || value.type == Type.STRING || value.type == Type.BOOLEAN) {
+
+            if (value.type == Type.NUMBER || value.type == Type.STRING || value.type == Type.BOOLEAN 
+                || value.type == Type.DECIMAL || value.type == Type.NULL) {
 
 
-            cadenaSinFormato = value["value"].toString();
+                cadenaSinFormato = value["value"].toString();
 
-            if (cadenaSinFormato.includes("\\n")) {
-                cadenaSinFormato = cadenaSinFormato.replace(/\\n/g, "\n")
+                if (cadenaSinFormato.includes("\\n")) {
+                    cadenaSinFormato = cadenaSinFormato.replace(/\\n/g, "\n")
+                }
+                if (cadenaSinFormato.includes("\\t")) {
+                    cadenaSinFormato = cadenaSinFormato.replace(/\\t/g, "\t");
+                }
+                if (cadenaSinFormato.includes("\\r")) {
+                    cadenaSinFormato = cadenaSinFormato.replace(/\\r/g, "\r");
+                }
+
+
+            } else {
+
+                cadenaSinFormato = "[";
+
+                for (let i of value.value) {
+                    cadenaSinFormato = cadenaSinFormato + i + ",";
+                }
+
+                cadenaSinFormato = cadenaSinFormato + "]";
+
             }
-            if (cadenaSinFormato.includes("\\t")) {
-                cadenaSinFormato = cadenaSinFormato.replace(/\\t/g, "\t");
-            }
-            if (cadenaSinFormato.includes("\\r")) {
-                cadenaSinFormato = cadenaSinFormato.replace(/\\r/g, "\r");
-            }
-
-
-        } else {
-
-            cadenaSinFormato = "[";
-
-            for (let i of value.value) {
-                cadenaSinFormato = cadenaSinFormato + i + ",";
-            }
-
-            cadenaSinFormato = cadenaSinFormato + "]";
-
-        }
-
-
-
-        cadenaFinal = cadenaSinFormato;
-        terminal = terminal + cadenaFinal + "\n";
-        localStorage.setItem("consola", terminal);
-
+            cadenaFinal = cadenaFinal + cadenaSinFormato + " ";
     }
+    let finalCadena = "";
+
+    if (this.println) {
+        finalCadena = "\n";
+    } else {
+        finalCadena = "";
+    }
+    terminal = terminal + cadenaFinal + finalCadena;
+    localStorage.setItem("consola", terminal);
+}
 
    
 
     public graficar() {
 
         let NodoImprimir = new Nodo_Arbol("IMPRIMIR");
-        let Ex = new Nodo_Arbol("EXPRESION");
+        let Ex = new Nodo_Arbol("EXPRESION_IMPRIMIR");
 
-        Ex.agregarHijo(this.value.graficar());
+        for (let expresion of this.value) {
+            Ex.agregarHijo(expresion.graficar());
 
-        NodoImprimir.agregarHijo(Ex);
+            NodoImprimir.agregarHijo(Ex);
+        }
 
         return NodoImprimir;
 

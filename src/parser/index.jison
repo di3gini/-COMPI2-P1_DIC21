@@ -28,7 +28,22 @@
     const { DeclaracionArray} = require("../core/Instruccion/DeclaracionArray");
     const { AsignacionArray} = require("../core/Instruccion/AsignacionArray");
     const { AccesoArray } = require("../core/Abstract/AccesoArray");
-
+    const { Cos } = require("../core/FuncionesNativas/Cos");
+    const { Sin } = require("../core/FuncionesNativas/Sin");
+    const { Tan } = require("../core/FuncionesNativas/Tan");
+    const { Logarithmic } = require("../core/FuncionesNativas/Log");
+    const { Sqrt } = require("../core/FuncionesNativas/Sqrt");
+    const { Pow } = require("../core/FuncionesNativas/Pow");
+    const { Concat } = require("../core/FuncionesNativas/Concat");
+    const { LowerCase } = require("../core/FuncionesNativas/LowerCase");
+    const { UpperCase } = require("../core/FuncionesNativas/UpperCase");
+    const { StringFunc } = require("../core/FuncionesNativas/String");
+    const { Elevado } = require("../core/Expresion/Elevado");
+    const { CharOfPos } = require("../core/FuncionesNativas/CharOfPos");
+    const { Substring } = require("../core/FuncionesNativas/Substring");
+    const { Length } = require("../core/FuncionesNativas/Length");
+    const { Parse } = require("../core/FuncionesNativas/Parse");
+    const { TypeOf } = require("../core/FuncionesNativas/TypeOf");
     //CANTIDAD DE ERRORES ENCONTRADOS A PARTIR DE QUE ENCUENTRA 1  Y GUARDADNDO EN ERRS  
     let contErr=0;
     let ERRS=[];
@@ -56,9 +71,9 @@ decimal [0-9][.][0-9]
 "("                   return 'parIz'
 ")"                   return 'parDer'
 "int"                 return 'number'
-"decimal"             return 'decimal'
+"double"              return 'decimal'
 "boolean"             return 'bolean'
-"string"              return 'string'
+"String"              return 'string'
 "void"                return 'void'          
 "function"            return 'fun'
 "."                   return "punto"  
@@ -68,7 +83,12 @@ decimal [0-9][.][0-9]
 "}"                   return 'corcheDer'
 "["                   return 'llaveizq'
 "]"                   return 'llaveder'
-"**"                  return 'potencia'
+"pow"                 return 'potencia'
+"sin"                 return 'seno'
+"cos"                 return 'coseno'
+"tan"                 return 'tangente'
+"log10"               return 'logaritmo'
+"sqrt"                return 'raiz'
 ";"                   return 'pcoma'
 ":"                   return 'dospuntos'
 "*"                   return 'por'
@@ -86,14 +106,17 @@ decimal [0-9][.][0-9]
 "=="                  return 'igualacion'
 "!="                  return 'diferente'
 "&&"                  return 'and'
+"&"                   return 'ampersand'
 "||"                  return 'or'
 "!"                   return 'not'
 ";"                   return 'pcoma'
 "="                   return 'igual'
+"^"                   return 'elevado'
 "null"                return 'nulo'
 "true"                return 'verdadero'
 "false"               return 'falso'
 "print"               return 'rimprimir'
+"println"             return 'lrimprimir'
 "let"                 return 'let'
 "const"               return 'const'   
 ","                   return 'coma'
@@ -109,8 +132,16 @@ decimal [0-9][.][0-9]
 "do"                  return 'do'
 "for"                 return 'for'
 "in"                  return 'in'
-'of'                  return 'of'
-"type"                return 'type'
+"typeof"              return 'typeof'
+"toLowercase"         return 'toLowercase'
+"toUppercase"         return 'toUppercase'
+"string"              return 'stringFunc'
+"parse"               return 'parse'
+"caracterOfPosition"  return 'caracterOfPosition'
+"subString"           return 'subString'
+"length"              return 'length'
+
+
 ({letras}|"_")({letras}+|{digito}*|"_")*          return 'Identificador'
 \"([^\"\n\\\\]|\\\"|\\)*\"  	return 'cadena'
 <<EOF>>		          return 'EOF'
@@ -122,12 +153,13 @@ decimal [0-9][.][0-9]
 /lex
 %left  'mas' 'menos'
 %left  'por' 'div' 'mod'
-%left  or
-%left  and
+%left  'or'
+%left  'and'
 %left 'diferente' 'igualacion' 'interrogacion'
 %left 'menor' 'mayor' 'menorigual' 'mayorigual'
 %left 'potencia'
 %left 'punto'
+%left 'ampersand' 'elevado'
 %right 'not' 'Umenos'  'aumento' 'decremento'
 %start Init
 %%
@@ -162,13 +194,12 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
             | TRANSFERENCIA {$$=$1;}//ok
             | TYPE {$$=$1;}
             | LLAMADA {$$=$1;}
-            |error  { 
+             |error  { 
                         if(this._$.first_column == 0){
                             LISTADOERRORES= LISTADOERRORES +"   "+ ERRS[0];
                             ERRS=[];   
                             $$="\n";
                         }else{
-
                             ERRS.push("Error Sintactico: \""+ yytext + "\" en la Linea: "+ this._$.first_line + " y Columna: "+ this._$.first_column +"\n");
                         }
                     }
@@ -178,17 +209,34 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
 
 
 //================================IMPRIMIR==========================ok
-IMPRIMIR : rimprimir parIz EXPRESION parDer pcoma  
+IMPRIMIR : rimprimir parIz EXPRESION_IMPR parDer pcoma  
             { 
-                $$ = new Print($3, @1.first_line, @1.first_column,[$1,$2,$3,$4,$5]);
+                $$ = new Print($3, false, @1.first_line, @1.first_column,[$1,$2,$3,$4,$5]);
+            }
+            | lrimprimir parIz EXPRESION_IMPR parDer pcoma  
+            { 
+                $$ = new Print($3, true, @1.first_line, @1.first_column,[$1,$2,$3,$4,$5]);
             }
         ;
 
-//=============================== DECLARACION y ASIGNACION DE VARIABLES ===============================ok
+EXPRESION_IMPR : EXPRESION_IMPR coma EXPRESION {
+                    $1.push($3);
+                    $$=$1;
+                }
+                | EXPRESION {
+                    $$=[$1];
+                }
+                ;
+
+//=============================== DECLARACION DE VARIABLES Y ARRAYS ===============================
 
 DECLARACION: TIPOS DECLARACION_EXPR pcoma
             {
                 $$=new ListadoDeclaracion($1, $2,this._$.first_line ,this._$.first_column);
+            }
+            | TIPOS Identificador igual EXPRESION pcoma
+            {
+                $$=new Declaration($2,$4,this._$.first_line,this._$.first_column, $1);
             }
             ;
 
@@ -200,22 +248,14 @@ DECLARACION_EXPR: DECLARACION_EXPR coma Identificador{
                     $$=[$1];
                 }
                 ;
-
-ASIGNACION: TIPOS Identificador igual EXPRESION pcoma
-            {
-                $$=new Declaration($2,$4,this._$.first_line,this._$.first_column, $1);
-            }
-            ;
-
     
 
-//============================== ASIGNACION DE VARIABLES ==============================================
+//============================== ASIGNACION DE VARIABLES Y ARRAYS ==============================================
 
 
 ASIGNACION: Identificador igual EXPRESION pcoma 
             {
                 $$=new Asignacion($1,$3, @1.first_line, @1.first_column);
-
             }
           | AUMENTO  pcoma  
             {
@@ -223,25 +263,15 @@ ASIGNACION: Identificador igual EXPRESION pcoma
             }
           | Identificador llaveizq EXPRESION llaveder igual EXPRESION pcoma
             {
-                console.log("nueva produccion");
                 $$=new AsignacionArray($1,$3,$6,@1.first_line, @1.first_column);
+            }
+          |  TIPOS llaveizq llaveder Identificador igual LISTADO_ARRAY pcoma
+            {
+                console.log("Entro a declaracion de array");
             }
           ;
 
 //============================== ARRAYS ======================================
-
-DIMENSION_ARRAY: DIMENSION_ARRAY TAM_ARRAY
-                    {
-                        $1.push($2);
-                        $$=$1;
-                    }
-               | TAM_ARRAY{$$=[$1];}
-               ;
-
-TAM_ARRAY: llaveizq llaveder{$$=0;}
-        ;
-
-
 
 ASIGNACION_ARRAY: llaveizq LISTADO_ARRAY llaveder{$$=$2;}
                 | llaveizq llaveder {$$=0;}
@@ -462,10 +492,6 @@ EXPRESION: menos EXPRESION %prec Umenos
             {
                 $$=new Arithmetic($1,$3,ArithmeticOption.DIV,this._$.first_line ,this._$.first_column);
             }        
-         | EXPRESION potencia EXPRESION
-            {
-                $$=new Arithmetic($1,$3,ArithmeticOption.POT,this._$.first_line ,this._$.first_column);
-            } 
          | EXPRESION mayor EXPRESION 
             {
                  $$=new Relational($1,$3,RelationalOption.GREATER,this._$.first_line ,this._$.first_column);
@@ -506,7 +532,64 @@ EXPRESION: menos EXPRESION %prec Umenos
             {
                  $$= new Ternario($1,$3,$5,this._$.first_line ,this._$.first_column);
             }
-         | parIz EXPRESION parDer       {$$ =$2;}
+         
+         | seno parIz EXPRESION parDer 
+            {
+                $$=new Sin($3,this._$.first_line ,this._$.first_column);
+            }
+        | coseno parIz EXPRESION parDer 
+            {
+                $$=new Cos($3,this._$.first_line ,this._$.first_column);
+            }
+        | tangente parIz EXPRESION parDer 
+            {
+                $$=new Tan($3,this._$.first_line ,this._$.first_column);
+            }
+        | raiz parIz EXPRESION parDer 
+            {
+                $$=new Sqrt($3,this._$.first_line ,this._$.first_column);
+            }
+        | potencia parIz EXPRESION coma EXPRESION parDer 
+            {
+                $$=new Pow($3,$5,this._$.first_line ,this._$.first_column);
+            }
+        | EXPRESION ampersand EXPRESION 
+            {
+                $$=new Concat($1,$3,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION punto toLowercase parIz parDer 
+            {
+                $$=new LowerCase($1,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION punto toUppercase parIz parDer 
+            {
+                $$=new UpperCase($1,this._$.first_line ,this._$.first_column);
+            }
+         | TIPOS punto parse parIz EXPRESION parDer 
+            {
+                $$=new Parse($1,$5,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION elevado EXPRESION 
+            {
+                $$=new Elevado($1,$3,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION punto caracterOfPosition parIz EXPRESION parDer 
+            {
+                $$=new CharOfPos($1,$5,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION punto subString parIz EXPRESION coma EXPRESION parDer 
+            {
+                $$=new Substring($1,$5,$7,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION punto length parIz parDer 
+            {
+                $$=new Length($1,this._$.first_line ,this._$.first_column);
+            }
+         | typeof parIz EXPRESION parDer 
+            {
+                $$=new TypeOf($3,this._$.first_line ,this._$.first_column);
+            }
+         | parIz EXPRESION parDer       {$$ = $2;}
          | LITERAL{ $$=$1;}   
          ;
 
@@ -551,7 +634,6 @@ TIPOS:  string {$$=1;}
     |   number {$$=0;}
     |   void   {$$=8;}
     |   decimal {$$=9;}
-    |   Identificador {$$=$1;}
     ;
 
 
