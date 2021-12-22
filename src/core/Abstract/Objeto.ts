@@ -16,3 +16,9 @@ export type Retorno ={
     value : any,
     type : Type
 }
+
+export type RetornoC3D={
+    value : any,
+    type : Type,
+    CD3: any
+}

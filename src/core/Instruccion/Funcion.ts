@@ -2,7 +2,7 @@
 import { Expression } from "../Abstract/Expresion";
 import { Instruccion } from "../Abstract/Instruccion";
 import { Environment } from "../Simbolo/Entorno";
-import { Type, Retorno } from "../Abstract/Objeto";
+import { Type, Retorno, RetornoC3D } from "../Abstract/Objeto";
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
 
 export class Funcion extends Expression {
@@ -134,5 +134,9 @@ export class Funcion extends Expression {
         fun.agregarHijo(nombreFun);
 
         return fun;
+    }
+
+    public C3D(env: Environment): RetornoC3D | null {
+        return
     }
 }
