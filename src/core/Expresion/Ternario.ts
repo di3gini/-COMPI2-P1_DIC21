@@ -1,8 +1,9 @@
 import { Expression } from "../Abstract/Expresion";
-import { Retorno, Type } from "../Abstract/Objeto";
+import { Retorno, RetornoC3D, Type } from "../Abstract/Objeto";
 import { Environment } from "../Simbolo/Entorno";
 import { Instruccion} from "../Abstract/Instruccion";
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
+import { Temporal } from "../codigo3d/Temporal";
 
 
 
@@ -56,5 +57,9 @@ export class Ternario extends Expression {
         return Tern;
     }
 
+
+    public C3D(environment: Environment, Temp: Temporal): RetornoC3D {
+        return
+    }
 }
 

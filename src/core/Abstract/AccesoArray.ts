@@ -1,7 +1,8 @@
 import { Expression } from "./Expresion";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
-import { Retorno, Type } from "../Abstract/Objeto";
+import { Retorno, RetornoC3D, Type } from "../Abstract/Objeto";
+import { Temporal } from "../codigo3d/Temporal";
 
 export class AccesoArray extends Expression {
 
@@ -39,6 +40,8 @@ export class AccesoArray extends Expression {
         return Acceso;
     }
 
-
+    public C3D(environment: Environment, Temp: Temporal): RetornoC3D {
+        return
+    }
    
 }

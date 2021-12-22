@@ -3,6 +3,7 @@ import { Expression } from "../Abstract/Expresion";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol";
 import { Type } from '../Abstract/Objeto';
+import { Temporal } from "../codigo3d/Temporal";
 
 export class Print extends Instruccion {
 
@@ -78,6 +79,11 @@ export class Print extends Instruccion {
 
 
 
+    }
+
+
+    public C3D(environment: Environment, Temp: Temporal) {
+        
     }
 
 }  

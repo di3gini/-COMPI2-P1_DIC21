@@ -1,7 +1,8 @@
 import { Expression } from "../Abstract/Expresion";
-import { Retorno, Type } from "../Abstract/Objeto";
+import { Retorno, RetornoC3D, Type } from "../Abstract/Objeto";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
+import { Temporal } from "../codigo3d/Temporal";
 
 export class Pow extends Expression {
     
@@ -37,5 +38,9 @@ export class Pow extends Expression {
             NodoAritmetica.agregarHijo(Leftvalue);
             NodoAritmetica.agregarHijo(Rightvalue);
             return NodoAritmetica;
+        }
+
+        public C3D(environment: Environment, Temp: Temporal): RetornoC3D {
+            return
         }
 }

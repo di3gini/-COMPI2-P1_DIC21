@@ -1,5 +1,6 @@
 import { Expression } from "../Abstract/Expresion";
-import { Retorno, Type } from "../Abstract/Objeto";
+import { Retorno, RetornoC3D, Type } from "../Abstract/Objeto";
+import { Temporal } from "../codigo3d/Temporal";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
 import { Environment } from '../Simbolo/Entorno';
 
@@ -33,4 +34,8 @@ export class Literal extends Expression {
         return lit;
     }
 
+
+    public C3D(environment: Environment, Temp: Temporal): RetornoC3D {
+        return
+    }
 }
