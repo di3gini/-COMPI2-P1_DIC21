@@ -19,7 +19,6 @@ export class Asignacion extends Instruccion {
         } else {
             const val = this.expresion.execute(environment);
             if (val.type == expresion.type) {
-                console.log("Asignacion correcta");
                 environment.setVar(this.id, val.value, val.type,this.line,this.column);
             } else {
                 let Errores = localStorage.getItem("ErroresEjecucion");

@@ -19,7 +19,7 @@ export class Switch extends Instruccion {
 
         let valorCond = this.condicion.execute(env);
        
-        console.log(this.casos);
+        
 
         for (const instr of this.casos) {
             try {
@@ -29,7 +29,7 @@ export class Switch extends Instruccion {
                     
 
                     let element: Retorno = instr.executecase(entornoHijo, valorCond);
-                    console.log(element);
+                   
 
                     if (element.value == false) {
                         if (element.type == Type.BREAK)
@@ -41,7 +41,7 @@ export class Switch extends Instruccion {
 
                 }
             } catch (error) {
-                console.log(error);
+                
                 let Errores = localStorage.getItem("ErroresEjecucion");
                 Errores = Errores + "   " + "Error Semantico: Ocurrio un error en la sentencia Switch. En la linea: " + this.line + " y columna: " + this.column + "\n";
                 localStorage.setItem("ErroresEjecucion", Errores);

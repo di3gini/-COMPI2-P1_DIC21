@@ -26,10 +26,6 @@ export class Caso extends Instruccion {
         //const existeVar = env.getVarLocal(leftvalue);
 
 
-        console.log(leftvalue.value);
-        console.log("=");
-        console.log(Valor.value);
-
         if (this.type == CaseOption.DEFAULT) {
             //Valor.value = existeVar.valor;
             Valor.value = leftvalue.value;
@@ -37,7 +33,6 @@ export class Caso extends Instruccion {
 
         if (leftvalue.value == Valor.value) {
 
-            console.log("entre");
             for (const instr of this.code) {
                 try {
 

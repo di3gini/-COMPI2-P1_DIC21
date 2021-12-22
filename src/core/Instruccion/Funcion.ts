@@ -21,18 +21,15 @@ export class Funcion extends Expression {
 
 
         let entornoFuncion;
-        if (env.anterior != null) {
-            entornoFuncion = new Environment(env.anterior);
-        } else {
-            entornoFuncion = new Environment(env);
-        }
-
-
+        entornoFuncion = new Environment(env);
         
-        for (let parametro of this.ParametrosFuncion) {
-            entornoFuncion.guardarEntornoActual(parametro.id, parametro.valor, parametro.tipo, this.line, this.column);
-        }
 
+
+ 
+        for (let parametro of this.ParametrosFuncion) {
+            entornoFuncion.setEntornoActual(parametro.id, parametro.valor, parametro.tipo, this.line, this.column);
+        }
+        
         //EJECTA LAS INSTRUCCIONES DE LA FUNCION Y ESPERA SI HAY UN RETURN
         let element = this.InstruccionesFuncion.execute(entornoFuncion);
 

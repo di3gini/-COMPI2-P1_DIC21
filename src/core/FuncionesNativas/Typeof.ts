@@ -15,7 +15,6 @@ export class TypeOf extends Expression {
             try{
 
                 const val = this.value.execute(environment);
-                console.log("valor de val: ",val, "typeof val: ", val.type);
                 if (val.type == Type.STRING) {
                     return { value: "String", type: Type.STRING };
                 } else if (val.type == Type.NUMBER) {

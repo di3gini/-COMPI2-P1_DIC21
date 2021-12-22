@@ -17,18 +17,16 @@ export class If extends Instruccion {
     public execute(env: Environment) {
           //const entornoHijo = new Environment(env);
         let cond = this.condition.execute(env);
-        console.log("Ejeuctando if");
-        console.log("valor condicion: ", cond);
         if (cond.type != Type.BOOLEAN) {
             let Errores = localStorage.getItem("ErroresEjecucion");
             Errores = Errores + "   " + "Error Semantico: La condicion no es boolean. En la linea: " + this.line + " y columna: " + this.column + "\n";
-            console.log(Errores);
             localStorage.setItem("ErroresEjecucion", Errores);
         } else {
             if (cond.value == true) {
                 return this.InstruccionesIf.execute(env);
             }
             else {
+                console.log("entro a else");
                 return this.InstruccionesElse.execute(env);
             }
         }

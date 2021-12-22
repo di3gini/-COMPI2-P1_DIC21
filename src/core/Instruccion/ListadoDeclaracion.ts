@@ -9,7 +9,7 @@ export class ListadoDeclaracion extends Instruccion {
     
     constructor(private tipo: Type, private variables: string[], line: number, column: number) {
         super(line, column);
-        console.log("tipo: " + this.tipo);
+
     }
 
     public execute(env: Environment) {
@@ -31,7 +31,6 @@ export class ListadoDeclaracion extends Instruccion {
                         break;
                     
                 }
-            console.log("Variable declarada: " + id + " Tipo: " + this.tipo);
             } catch (error) {
                 console.log(error);
         }

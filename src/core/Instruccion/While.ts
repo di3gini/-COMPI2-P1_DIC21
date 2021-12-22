@@ -25,7 +25,7 @@ export class While extends Instruccion {
 
             const element = this.InstruccionesWhile.execute(env);
             if (element != null || element != undefined) {
-                console.log(element);
+                
                 if (element.type == 'Break')
                     break;
                 else if (element.type == 'Continue')

@@ -8,8 +8,6 @@ export class AccesoArray extends Expression {
     public idd: string = "";
     constructor(private id: string, private posicion: Expression, line: number, column: number) {
         super(line, column);
-        console.log("entre a acceso");
-        console.log(this.id,this.posicion);
     }
 
     public execute(environment: Environment): Retorno {

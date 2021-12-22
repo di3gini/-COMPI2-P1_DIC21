@@ -260,7 +260,6 @@ DECLARACION_EXPR: DECLARACION_EXPR coma Identificador{
 
 ASIGNACION: Identificador igual EXPRESION pcoma 
             {
-                console.log("ASIGNACION", $1);
                 $$=new Asignacion($1,$3, @1.first_line, @1.first_column);
             }
           | AUMENTO  pcoma  
@@ -607,6 +606,14 @@ EXPRESION: menos EXPRESION %prec Umenos
             {
                 $$=new toDouble($3,this._$.first_line ,this._$.first_column);
             }
+         | Identificador parIz parDer 
+            {
+                $$=new Llamada($1,[],@1.first_line, @1.first_column);
+            }
+         | Identificador parIz PARAMETROS_ENTRADA parDer 
+            {
+                $$=new Llamada($1,$3,@1.first_line, @1.first_column);
+            }
          | parIz EXPRESION parDer       {$$ = $2;}
          | LITERAL{ $$=$1;}   
          ;
@@ -620,14 +627,6 @@ LITERAL:  numdecimal   {$$=new Literal($1,this._$.first_line ,this._$.first_colu
         | nulo      {$$=new Literal($1,this._$.first_line ,this._$.first_column,3);}
         | AUMENTO   {$$=$1;}
         | Identificador {$$=new Access($1, @1.first_line, @1.first_column);}
-        | Identificador parIz parDer 
-            {
-                $$=new Llamada($1,[],@1.first_line, @1.first_column);
-            }
-        | Identificador parIz PARAMETROS_ENTRADA parDer 
-            {
-                $$=new Llamada($1,$3,@1.first_line, @1.first_column);
-            }
         | Identificador llaveizq EXPRESION llaveder
           {
                 $$= new AccesoArray($1,$3,@1.first_line, @1.first_column);

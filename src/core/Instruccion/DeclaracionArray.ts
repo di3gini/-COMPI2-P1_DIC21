@@ -25,7 +25,7 @@ export class DeclaracionArray extends Instruccion {
             if (this.tipo == Type.NUMBER) {
                 //number
                 let arreglo: number[] = [];
-                console.log("numero array");
+                
                 for (let valor of this.valores) {
                     let a = valor.execute(environment);
                     arreglo.push(a.value);
@@ -37,12 +37,11 @@ export class DeclaracionArray extends Instruccion {
             } else if (this.tipo == Type.STRING) {
                 //string
                 let arreglo: string[] = [];
-                console.log("string array");
+                
                 for (let valor of this.valores) {
                     let a = valor.execute(environment);
                     arreglo.push(a.value);
                 }
-                console.log("string array asignado" );
                 environment.setVar(this.id, arreglo, 41, this.line, this.column);
 
             } else if (this.tipo == Type.BOOLEAN) {

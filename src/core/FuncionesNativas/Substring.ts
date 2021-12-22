@@ -15,7 +15,6 @@ export class Substring extends Expression {
                 const val = this.value.execute(environment);
                 const iniPos = this.initPos.execute(environment);
                 const endPos = this.finalPos.execute(environment);
-                console.log("init: " + iniPos.value + " final: " + endPos.value + " valor: " + val.value);
                 if(val.type == Type.STRING && iniPos.type == Type.NUMBER && endPos.type == Type.NUMBER){
                     return { value: (String(val.value.toString().substring(iniPos.value, endPos.value))), type: Type.STRING };
                 } else {
