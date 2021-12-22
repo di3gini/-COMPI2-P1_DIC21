@@ -3,6 +3,7 @@ import { Environment } from "../Simbolo/Entorno";
 import { Expression } from "../Abstract/Expresion";
 import { Type } from "../Abstract/Objeto"
 import { Nodo_Arbol} from "../Graficar_Arbol/nodo_arbol";
+import { Temporal } from "../codigo3d/Temporal";
 
 export class Declaration extends Instruccion {
 
@@ -44,6 +45,10 @@ export class Declaration extends Instruccion {
             return NodoDeclaracion;
 
 
+    }
+
+    public C3D(environment: Environment, Temp: Temporal) {
+        
     }
 
 }

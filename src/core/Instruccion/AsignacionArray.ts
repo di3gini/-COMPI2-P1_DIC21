@@ -3,6 +3,7 @@ import { Environment } from "../Simbolo/Entorno";
 import { Retorno, Type } from "../Abstract/Objeto";
 import { Expression } from "../Abstract/Expresion";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol";
+import { Temporal } from '../codigo3d/Temporal';
 export class AsignacionArray extends Instruccion {
     public idd: string = "";
     constructor(private id: string, private posicion: Expression, private valor: Expression, line: number, column: number) {
@@ -56,7 +57,7 @@ export class AsignacionArray extends Instruccion {
 
     }
 
-
+    public C3D(env:Environment,Temp:Temporal){}
 
 
 }

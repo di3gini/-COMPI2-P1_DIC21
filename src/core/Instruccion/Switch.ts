@@ -5,6 +5,7 @@ import { Caso } from "../Instruccion/Caso";
 import { Type, Retorno } from "../Abstract/Objeto";
 import { Break } from './break';
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
+import { Temporal } from "../codigo3d/Temporal";
 
 export class Switch extends Instruccion {
 
@@ -70,6 +71,8 @@ export class Switch extends Instruccion {
         return swt;
     }
 
-
+    public C3D(environment: Environment, Temp: Temporal) {
+        
+    }
 }
 

@@ -3,6 +3,7 @@ import { Expression } from "../Abstract/Expresion";
 import { Environment } from "../Simbolo/Entorno";
 import { Type, Retorno } from "../Abstract/Objeto";
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
+import { Temporal } from '../codigo3d/Temporal';
 
 export enum CaseOption {
     NORMAL,
@@ -83,6 +84,8 @@ export class Caso extends Instruccion {
         return cas;
 
     }
+
+    public C3D(env:Environment,Temp:Temporal){}
 }
 
 

@@ -2,6 +2,7 @@ import { Instruccion } from "../Abstract/Instruccion";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
 import { Type } from "../Abstract/Objeto";
+import { Temporal } from "../codigo3d/Temporal";
 
 
 export class ListadoDeclaracion extends Instruccion {
@@ -42,4 +43,8 @@ export class ListadoDeclaracion extends Instruccion {
         
     }
 
+
+    public C3D(environment: Environment, Temp: Temporal) {
+        
+    }
 }

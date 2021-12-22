@@ -2,6 +2,7 @@ import { Instruccion } from "../Abstract/Instruccion";
 import { Expression } from "../Abstract/Expresion";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
+import { Temporal } from '../codigo3d/Temporal';
 
 export class Break extends Instruccion{
 
@@ -23,4 +24,5 @@ export class Break extends Instruccion{
         
     }
 
+    public C3D(env:Environment,Temp:Temporal){}
 }

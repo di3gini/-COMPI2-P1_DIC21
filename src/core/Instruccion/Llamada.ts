@@ -5,6 +5,7 @@ import { Funcion } from './Funcion';
 import { Instruccion } from '../Abstract/Instruccion';
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
 import { Literal } from '../Expresion/Literal';
+import { Temporal } from "../codigo3d/Temporal";
 
 
 export class Llamada extends Instruccion {
@@ -79,6 +80,10 @@ export class Llamada extends Instruccion {
         fun.agregarHijo(nombreFun);
         return fun;
 
+    }
+
+    public C3D(environment: Environment, Temp: Temporal) {
+        
     }
 
 }

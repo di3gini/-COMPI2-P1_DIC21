@@ -1,7 +1,8 @@
 import { Expression } from "../Abstract/Expresion";
-import { Retorno, Type } from "../Abstract/Objeto";
+import { Retorno, Type, RetornoC3D } from "../Abstract/Objeto";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
+import { Temporal } from '../codigo3d/Temporal';
 
 
 export enum ArithmeticOption {
@@ -194,7 +195,9 @@ export class Arithmetic extends Expression {
     }
 
 
-
+    public C3D(env:Environment,Temp:Temporal): RetornoC3D{
+        return
+    }
 
 }
 

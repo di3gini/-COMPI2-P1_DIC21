@@ -3,6 +3,7 @@ import { Environment } from "../Simbolo/Entorno";
 import { Retorno } from "../Abstract/Objeto";
 import { Expression } from "../Abstract/Expresion";
 import { Nodo_Arbol} from "../Graficar_Arbol/nodo_arbol";
+import { Temporal } from '../codigo3d/Temporal';
 
 export class Asignacion extends Instruccion {
 
@@ -45,4 +46,6 @@ export class Asignacion extends Instruccion {
         return asignacion;
         
     }
+
+    public C3D(env:Environment,Temp:Temporal){}
 }

@@ -3,6 +3,7 @@ import { Expression } from "../Abstract/Expresion";
 import { Environment } from "../Simbolo/Entorno";
 import { Type, Retorno } from "../Abstract/Objeto";
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
+import { Temporal } from "../codigo3d/Temporal";
 
 
 export class While extends Instruccion {
@@ -56,5 +57,7 @@ export class While extends Instruccion {
 
 
 
-
+    public C3D(environment: Environment, Temp: Temporal) {
+        
+    }
 }

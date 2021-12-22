@@ -2,6 +2,7 @@ import { Instruccion } from "../Abstract/Instruccion";
 import { Environment } from "../Simbolo/Entorno";
 import { Retorno, Type } from '../Abstract/Objeto';
 import { Nodo_Arbol } from '../Graficar_Arbol/nodo_arbol';
+import { Temporal } from "../codigo3d/Temporal";
 
 export class ListadoSentencias extends Instruccion {
 
@@ -50,4 +51,8 @@ export class ListadoSentencias extends Instruccion {
         
     }
 
+
+    public C3D(environment: Environment, Temp: Temporal) {
+        
+    }
 }
