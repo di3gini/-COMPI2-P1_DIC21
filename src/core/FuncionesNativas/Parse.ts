@@ -12,7 +12,6 @@ export class Parse extends Expression {
         public execute(environment: Environment): Retorno {
 
             const val = this.value.execute(environment);
-            console.log("Ejecutando Parse: Tipo: " + this.tipo + " Valor: " + val.value);
             if (val.type == Type.STRING) {
                 switch (this.tipo) {
                     case Type.NUMBER:
