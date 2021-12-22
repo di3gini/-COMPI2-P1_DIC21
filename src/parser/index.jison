@@ -44,6 +44,8 @@
     const { Length } = require("../core/FuncionesNativas/Length");
     const { Parse } = require("../core/FuncionesNativas/Parse");
     const { TypeOf } = require("../core/FuncionesNativas/TypeOf");
+    const { toInt } = require("../core/FuncionesNativas/toInt");
+    const { toDouble } = require("../core/FuncionesNativas/toDouble");
     //CANTIDAD DE ERRORES ENCONTRADOS A PARTIR DE QUE ENCUENTRA 1  Y GUARDADNDO EN ERRS  
     let contErr=0;
     let ERRS=[];
@@ -57,8 +59,7 @@
 letras = [A-Za-zÑñ]
 digito = [0-9]
 int [0-9]+
-decimal [0-9][.][0-9]
-
+decimal [0-9]+[.][0-9]+
 
 %%
 \s+                             /*Ingorar espacios en blanco*/
@@ -140,10 +141,13 @@ decimal [0-9][.][0-9]
 "caracterOfPosition"  return 'caracterOfPosition'
 "subString"           return 'subString'
 "length"              return 'length'
+"toInt"               return 'toInt'
+"toDouble"            return 'toDouble'
 
 
 ({letras}|"_")({letras}+|{digito}*|"_")*          return 'Identificador'
 \"([^\"\n\\\\]|\\\"|\\)*\"  	return 'cadena'
+
 <<EOF>>		          return 'EOF'
 
 .                   %{    
@@ -151,6 +155,7 @@ decimal [0-9][.][0-9]
                         LISTADOERRORES = LISTADOERRORES +"   "+ "Error Lexico en la linea: "+ yylineno+" y columna "+ (yylloc.last_column+1)+"\n";
                     %}
 /lex
+
 %left  'mas' 'menos'
 %left  'por' 'div' 'mod'
 %left  'or'
@@ -255,6 +260,7 @@ DECLARACION_EXPR: DECLARACION_EXPR coma Identificador{
 
 ASIGNACION: Identificador igual EXPRESION pcoma 
             {
+                console.log("ASIGNACION", $1);
                 $$=new Asignacion($1,$3, @1.first_line, @1.first_column);
             }
           | AUMENTO  pcoma  
@@ -265,9 +271,9 @@ ASIGNACION: Identificador igual EXPRESION pcoma
             {
                 $$=new AsignacionArray($1,$3,$6,@1.first_line, @1.first_column);
             }
-          |  TIPOS llaveizq llaveder Identificador igual LISTADO_ARRAY pcoma
+          |  TIPOS llaveizq llaveder Identificador igual ASIGNACION_ARRAY pcoma
             {
-                console.log("Entro a declaracion de array");
+                $$ = new DeclaracionArray($4,$1,$6,@1.first_line, @1.first_column);
             }
           ;
 
@@ -379,13 +385,13 @@ CONDICION_FOR: let Identificador igual EXPRESION pcoma EXPRESION pcoma EXPRESION
 
 //============================== FUNCIONES ===================================
 
-FUNCION: NOMBRE_FUNCION PARAMETROS CUERPO_FUNCIONES 
+FUNCION: void Identificador PARAMETROS CUERPO_FUNCIONES 
             {      
-                $$= new Funcion($1,$2,$3,8,@1.first_line, @1.first_column);
+                $$= new Funcion($2,$3,$4,8,@1.first_line, @1.first_column);
             }
-       | NOMBRE_FUNCION PARAMETROS dospuntos TIPOS CUERPO_SENTENCIAS 
+       | TIPOS Identificador PARAMETROS CUERPO_SENTENCIAS 
             {
-                $$= new Funcion($1,$2,$5,$4,@1.first_line, @1.first_column);
+                $$= new Funcion($2,$3,$4,$1,@1.first_line, @1.first_column);
             }
        ;
 
@@ -413,14 +419,10 @@ LISTADO_PARAMETROS: LISTADO_PARAMETROS coma PARAMETRO
                     }
                   ;
 
-
-PARAMETRO: Identificador dospuntos TIPOS
+PARAMETRO: TIPOS Identificador
         {
-            $$=$$=new  Declaration($1, new Literal("null",this._$.first_line ,this._$.first_column,$3), this._$.first_line ,this._$.first_column);
+            $$=$$=new  Declaration($2, new Literal("null",this._$.first_line ,this._$.first_column,$1), this._$.first_line ,this._$.first_column);
         };
-
-
-NOMBRE_FUNCION: fun Identificador{$$=$2;};
 
 //============================================LLAMADA FUNCIONES===========================
 
@@ -495,6 +497,10 @@ EXPRESION: menos EXPRESION %prec Umenos
          | EXPRESION mayor EXPRESION 
             {
                  $$=new Relational($1,$3,RelationalOption.GREATER,this._$.first_line ,this._$.first_column);
+            }
+        | EXPRESION mod EXPRESION
+            {
+                $$=new Arithmetic($1,$3,ArithmeticOption.MOD,this._$.first_line ,this._$.first_column);
             }
          | EXPRESION menor EXPRESION 
             {
@@ -589,6 +595,18 @@ EXPRESION: menos EXPRESION %prec Umenos
             {
                 $$=new TypeOf($3,this._$.first_line ,this._$.first_column);
             }
+         | stringFunc parIz EXPRESION parDer 
+            {
+                $$=new StringFunc($3,this._$.first_line ,this._$.first_column);
+            }
+         | toInt parIz EXPRESION parDer 
+            {
+                $$=new toInt($3,this._$.first_line ,this._$.first_column);
+            }
+         | toDouble parIz EXPRESION parDer 
+            {
+                $$=new toDouble($3,this._$.first_line ,this._$.first_column);
+            }
          | parIz EXPRESION parDer       {$$ = $2;}
          | LITERAL{ $$=$1;}   
          ;
@@ -632,7 +650,6 @@ AUMENTO: Identificador aumento
 TIPOS:  string {$$=1;}
     |   bolean {$$=2;}
     |   number {$$=0;}
-    |   void   {$$=8;}
     |   decimal {$$=9;}
     ;
 

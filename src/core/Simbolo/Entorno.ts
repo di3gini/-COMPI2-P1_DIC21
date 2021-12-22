@@ -79,7 +79,6 @@ export class Environment {
 
     }
 
-
     public getVar(id: string): Simbolo | undefined | null {
         let env: Environment | null = this;
 

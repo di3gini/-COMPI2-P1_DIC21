@@ -21,40 +21,41 @@ export class DeclaracionArray extends Instruccion {
 
     public execute(environment: Environment) {
 
+        
             if (this.tipo == Type.NUMBER) {
                 //number
                 let arreglo: number[] = [];
-
+                console.log("numero array");
                 for (let valor of this.valores) {
                     let a = valor.execute(environment);
                     arreglo.push(a.value);
                     //console.log(a);
                 }
 
-                environment.setEntornoActual(this.id, arreglo, 40, this.line, this.column);
+                environment.setVar(this.id, arreglo, 40, this.line, this.column);
 
             } else if (this.tipo == Type.STRING) {
                 //string
                 let arreglo: string[] = [];
-
+                console.log("string array");
                 for (let valor of this.valores) {
                     let a = valor.execute(environment);
                     arreglo.push(a.value);
                 }
-
-                environment.setEntornoActual(this.id, arreglo, 41, this.line, this.column);
+                console.log("string array asignado" );
+                environment.setVar(this.id, arreglo, 41, this.line, this.column);
 
             } else if (this.tipo == Type.BOOLEAN) {
                 //boolean
                 let arreglo: boolean[] = [];
-
+                console.log("boolean array");
                 for (let valor of this.valores) {
                     let a = valor.execute(environment);
                     arreglo.push(a.value);
                     //console.log(a);
                 }
 
-                environment.setEntornoActual(this.id, arreglo, 42, this.line, this.column);
+                environment.setVar(this.id, arreglo, 42, this.line, this.column);
             }
     }
 

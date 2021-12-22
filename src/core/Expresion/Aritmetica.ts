@@ -10,7 +10,8 @@ export enum ArithmeticOption {
     TIMES,
     DIV,
     POT,
-    UNARIO
+    UNARIO,
+    MOD
 }
 
 export class Arithmetic extends Expression {
@@ -27,24 +28,19 @@ export class Arithmetic extends Expression {
        
         //SUMA
         if (this.type == ArithmeticOption.PLUS) {
-
             if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
                 result = { value: (leftValue.value + rightValue.value), type: Type.NUMBER };
             }
-            else if ((leftValue.type == Type.DECIMAL && rightValue.type == Type.DECIMAL) ||
-                (leftValue.type == Type.DECIMAL && rightValue.type == Type.NUMBER)|| 
-                (leftValue.type == Type.NUMBER && rightValue.type == Type.DECIMAL)) {
-                    result = { value: (leftValue.value + rightValue.value), type: Type.NUMBER };
+            else if ((leftValue.type == Type.DECIMAL || rightValue.type == Type.DECIMAL)) {
+                    result = { value: (leftValue.value + rightValue.value), type: Type.DECIMAL };
             }
             else {
                 let Errores = localStorage.getItem("ErroresEjecucion");
                 Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
                 localStorage.setItem("ErroresEjecucion", Errores);
             }
-
         }
-
-
+        //RESTA
         else if (this.type == ArithmeticOption.MINUS) {
             if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
                 result = { value: (leftValue.value - rightValue.value), type: Type.NUMBER };
@@ -61,8 +57,7 @@ export class Arithmetic extends Expression {
             }
         }
 
-
-
+        //MULTIPLICACION
         else if (this.type == ArithmeticOption.TIMES) {
             if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
                 result = { value: (leftValue.value * rightValue.value), type: Type.NUMBER };
@@ -79,7 +74,7 @@ export class Arithmetic extends Expression {
             }
         }
 
-
+        //POTENCIA
         else if (this.type == ArithmeticOption.POT) {
             if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
                 result = { value: (Math.pow(leftValue.value, rightValue.value)), type: Type.NUMBER };
@@ -132,7 +127,32 @@ export class Arithmetic extends Expression {
                     localStorage.setItem("ErroresEjecucion", Errores);
                 }
             }
+        } 
+        else if (this.type == ArithmeticOption.MOD) {
+            if (rightValue.value == 0 || rightValue.value == 0.0) {
+
+                let Errores = localStorage.getItem("ErroresEjecucion");
+                Errores = Errores + "   " + "Error Semantico:" + " No se puede dividir entre 0" + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
+                localStorage.setItem("ErroresEjecucion", Errores);
+            }
+            else {
+                if (leftValue.type == Type.NUMBER && rightValue.type == Type.NUMBER) {
+                    result = { value: (leftValue.value % rightValue.value), type: Type.NUMBER };
+                }
+                else if ((leftValue.type == Type.DECIMAL && rightValue.type == Type.DECIMAL) ||
+                    (leftValue.type == Type.DECIMAL && rightValue.type == Type.NUMBER)|| 
+                    (leftValue.type == Type.NUMBER && rightValue.type == Type.DECIMAL)) {
+                        result = { value: (leftValue.value % rightValue.value), type: Type.NUMBER };
+                }
+                else {
+                    let Errores = localStorage.getItem("ErroresEjecucion");
+                    Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
+                    localStorage.setItem("ErroresEjecucion", Errores);
+                }
+            }
         }
+                 
+
         return result;
     }
 

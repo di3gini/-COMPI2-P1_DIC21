@@ -39,7 +39,7 @@ export class Print extends Instruccion {
 
 
             } else {
-
+                console.log("Print array");
                 cadenaSinFormato = "[";
 
                 for (let i of value.value) {

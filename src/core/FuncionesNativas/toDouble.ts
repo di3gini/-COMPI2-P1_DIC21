@@ -3,32 +3,32 @@ import { Retorno, Type } from "../Abstract/Objeto";
 import { Environment } from "../Simbolo/Entorno";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
 
-export class StringFunc extends Expression {
+export class toDouble extends Expression {
     
         constructor(private value: Expression, private linea: number, private columna: number) {
             super(linea, columna);
         }
 
+        
         public execute(environment: Environment): Retorno {
-            const value = this.value.execute(environment);
-            try{
-                
-                const val = value.value;
-                return { value: (String(val)), type: Type.STRING };
-            }
-            catch(e){
+
+            const val = this.value.execute(environment);
+            
+            if (val.type == Type.NUMBER) {
+                return { value: (parseFloat(val.value)), type: Type.DECIMAL };
+            } else {
                 let Errores = localStorage.getItem("ErroresEjecucion");
-                Errores = Errores + "   " + "Error Semantico:" + " No se puede operar. En la linea: " + this.line + " y columna: " + this.column + "\n";
+                Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + val.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
                 localStorage.setItem("ErroresEjecucion", Errores);
             }          
         }
     
         graficar(): Nodo_Arbol {
-            const NodoAritmetica = new Nodo_Arbol("STRING");
-            
+            const NodoAritmetica = new Nodo_Arbol("SIN");
+
             const value = new Nodo_Arbol("EXPRESION");
     
-            value.agregarHijo(this.value);
+            value.agregarHijo(this.value.graficar());
             NodoAritmetica.agregarHijo(value);
             return NodoAritmetica;
         }

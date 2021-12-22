@@ -14,7 +14,6 @@ export class AsignacionArray extends Instruccion {
         this.idd = value.id;
         //this.idd =
         if (value == null) {
-            // throw new Error("La variable no existe");
             let Errores = localStorage.getItem("ErroresEjecucion");
             Errores = Errores + "   " + "Error Semantico: La variable no existe. En la linea: " + this.line + " y columna: " + this.column + "\n";
             localStorage.setItem("ErroresEjecucion", Errores);

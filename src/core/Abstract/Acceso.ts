@@ -14,7 +14,7 @@ export class Access extends Expression{
         const value = environment.getVar(this.id);
         if(value == null){
             let Errores = localStorage.getItem("ErroresEjecucion");
-            Errores = Errores + "   " + "Error Semantico: La variable no existe. En la linea: " + this.line + " y columna: " + this.column + "\n";
+            Errores = Errores + "   " + "Error Semantico: La variable ' " + this.id +" 'no existe. En la linea: " + this.line + " y columna: " + this.column + "\n";
             localStorage.setItem("ErroresEjecucion", Errores);
         }
          

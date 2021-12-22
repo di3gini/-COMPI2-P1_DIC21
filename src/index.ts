@@ -76,6 +76,8 @@ compileBtn?.addEventListener('click', () => {
     let terminal = localStorage.getItem("consola");
     Salida = terminal;
     console.log(Salida);
+    let errores = localStorage.getItem("ErroresEjecucion");
+    console.log(errores);
 
 })
 

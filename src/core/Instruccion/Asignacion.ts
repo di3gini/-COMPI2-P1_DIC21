@@ -14,11 +14,12 @@ export class Asignacion extends Instruccion {
         const expresion = environment.getVar(this.id);
         if (expresion == null) {
             let Errores = localStorage.getItem("ErroresEjecucion");
-            Errores= Errores +"   "+"Error Semantico: La variable no existe. En la linea: "+this.line+" y columna: "+this.column +"\n";
+            Errores = Errores + "   " + "Error Semantico: La variable ' " + this.id +" 'no existe. En la linea: " + this.line + " y columna: " + this.column + "\n";
             localStorage.setItem("ErroresEjecucion",Errores);
         } else {
             const val = this.expresion.execute(environment);
-            if (val.type != expresion.type) {
+            if (val.type == expresion.type) {
+                console.log("Asignacion correcta");
                 environment.setVar(this.id, val.value, val.type,this.line,this.column);
             } else {
                 let Errores = localStorage.getItem("ErroresEjecucion");

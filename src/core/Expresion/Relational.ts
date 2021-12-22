@@ -25,9 +25,6 @@ export class Relational extends Expression {
         const leftValue = this.left.execute(environment);
         const rightValue = this.right.execute(environment);
 
-        if ((leftValue.type == Type.NUMBER || leftValue.type == Type.DECIMAL) && 
-            (rightValue.type == Type.NUMBER || rightValue.type == Type.DECIMAL)) {
-
             if (this.type == RelationalOption.EQUAL) {
                 const result = leftValue.value == rightValue.value;
                 return { value: result, type: Type.BOOLEAN };
@@ -48,11 +45,9 @@ export class Relational extends Expression {
                 const result = leftValue.value >= rightValue.value;
                 return { value: result, type: Type.BOOLEAN };
             }
-            return { value: 0, type: Type.NUMBER }
-        }
         else {
             let Errores = localStorage.getItem("ErroresEjecucion");
-            Errores = Errores + "   " + "Error Semantico:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
+            Errores = Errores + "   " + "Error Semantico en relacional:" + " No se puede operar: " + leftValue.type + ' _ ' + rightValue.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
             localStorage.setItem("ErroresEjecucion", Errores);
         }
     }
