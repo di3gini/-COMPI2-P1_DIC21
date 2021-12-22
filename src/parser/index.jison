@@ -35,7 +35,15 @@
     const { Sqrt } = require("../core/FuncionesNativas/Sqrt");
     const { Pow } = require("../core/FuncionesNativas/Pow");
     const { Concat } = require("../core/FuncionesNativas/Concat");
-
+    const { LowerCase } = require("../core/FuncionesNativas/LowerCase");
+    const { UpperCase } = require("../core/FuncionesNativas/UpperCase");
+    const { StringFunc } = require("../core/FuncionesNativas/String");
+    const { Elevado } = require("../core/Expresion/Elevado");
+    const { CharOfPos } = require("../core/FuncionesNativas/CharOfPos");
+    const { Substring } = require("../core/FuncionesNativas/Substring");
+    const { Length } = require("../core/FuncionesNativas/Length");
+    const { Parse } = require("../core/FuncionesNativas/Parse");
+    const { TypeOf } = require("../core/FuncionesNativas/TypeOf");
     //CANTIDAD DE ERRORES ENCONTRADOS A PARTIR DE QUE ENCUENTRA 1  Y GUARDADNDO EN ERRS  
     let contErr=0;
     let ERRS=[];
@@ -63,7 +71,7 @@ decimal [0-9][.][0-9]
 "("                   return 'parIz'
 ")"                   return 'parDer'
 "int"                 return 'number'
-"decimal"             return 'decimal'
+"double"              return 'decimal'
 "boolean"             return 'bolean'
 "String"              return 'string'
 "void"                return 'void'          
@@ -103,6 +111,7 @@ decimal [0-9][.][0-9]
 "!"                   return 'not'
 ";"                   return 'pcoma'
 "="                   return 'igual'
+"^"                   return 'elevado'
 "null"                return 'nulo'
 "true"                return 'verdadero'
 "false"               return 'falso'
@@ -123,8 +132,15 @@ decimal [0-9][.][0-9]
 "do"                  return 'do'
 "for"                 return 'for'
 "in"                  return 'in'
-'of'                  return 'of'
-"type"                return 'type'
+"typeof"              return 'typeof'
+"toLowercase"         return 'toLowercase'
+"toUppercase"         return 'toUppercase'
+"string"              return 'stringFunc'
+"parse"               return 'parse'
+"caracterOfPosition"  return 'caracterOfPosition'
+"subString"           return 'subString'
+"length"              return 'length'
+
 
 ({letras}|"_")({letras}+|{digito}*|"_")*          return 'Identificador'
 \"([^\"\n\\\\]|\\\"|\\)*\"  	return 'cadena'
@@ -137,12 +153,13 @@ decimal [0-9][.][0-9]
 /lex
 %left  'mas' 'menos'
 %left  'por' 'div' 'mod'
-%left  or
-%left  and
+%left  'or'
+%left  'and'
 %left 'diferente' 'igualacion' 'interrogacion'
 %left 'menor' 'mayor' 'menorigual' 'mayorigual'
 %left 'potencia'
 %left 'punto'
+%left 'ampersand' 'elevado'
 %right 'not' 'Umenos'  'aumento' 'decremento'
 %start Init
 %%
@@ -183,7 +200,6 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
                             ERRS=[];   
                             $$="\n";
                         }else{
-
                             ERRS.push("Error Sintactico: \""+ yytext + "\" en la Linea: "+ this._$.first_line + " y Columna: "+ this._$.first_column +"\n");
                         }
                     }
@@ -240,7 +256,6 @@ DECLARACION_EXPR: DECLARACION_EXPR coma Identificador{
 ASIGNACION: Identificador igual EXPRESION pcoma 
             {
                 $$=new Asignacion($1,$3, @1.first_line, @1.first_column);
-
             }
           | AUMENTO  pcoma  
             {
@@ -542,10 +557,39 @@ EXPRESION: menos EXPRESION %prec Umenos
             {
                 $$=new Concat($1,$3,this._$.first_line ,this._$.first_column);
             }
+         | EXPRESION punto toLowercase parIz parDer 
             {
-                $$=$1;
+                $$=new LowerCase($1,this._$.first_line ,this._$.first_column);
             }
-         | parIz EXPRESION parDer       {$$ =$2;}
+         | EXPRESION punto toUppercase parIz parDer 
+            {
+                $$=new UpperCase($1,this._$.first_line ,this._$.first_column);
+            }
+         | TIPOS punto parse parIz EXPRESION parDer 
+            {
+                $$=new Parse($1,$5,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION elevado EXPRESION 
+            {
+                $$=new Elevado($1,$3,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION punto caracterOfPosition parIz EXPRESION parDer 
+            {
+                $$=new CharOfPos($1,$5,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION punto subString parIz EXPRESION coma EXPRESION parDer 
+            {
+                $$=new Substring($1,$5,$7,this._$.first_line ,this._$.first_column);
+            }
+         | EXPRESION punto length parIz parDer 
+            {
+                $$=new Length($1,this._$.first_line ,this._$.first_column);
+            }
+         | typeof parIz EXPRESION parDer 
+            {
+                $$=new TypeOf($3,this._$.first_line ,this._$.first_column);
+            }
+         | parIz EXPRESION parDer       {$$ = $2;}
          | LITERAL{ $$=$1;}   
          ;
 
@@ -590,7 +634,6 @@ TIPOS:  string {$$=1;}
     |   number {$$=0;}
     |   void   {$$=8;}
     |   decimal {$$=9;}
-    |   Identificador {$$=$1;}
     ;
 
 

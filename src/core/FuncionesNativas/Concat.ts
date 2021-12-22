@@ -11,14 +11,16 @@ export class Concat extends Expression {
 
         
         public execute(environment: Environment): Retorno {
-
+            console.log("Concat");
             const leftval = this.leftValue.execute(environment);
             const rightval = this.rightValue.execute(environment);
             if (leftval.type == Type.STRING && rightval.type == Type.STRING) {
-                return { value: leftval.value.toString() + rightval.value.toString(), type: Type.STRING };
+                const res = leftval.value.toString().concat(rightval.value.toString());
+                return { value: res, type: Type.STRING };
             } else {
                 let Errores = localStorage.getItem("ErroresEjecucion");
                 Errores = Errores + "   " + "Error Semantico:" + " No se puede operar tipos que no sean STRING: " + leftval.type + ", " + rightval.type + ". En la linea: " + this.line + " y columna: " + this.column + "\n";
+                console.log(Errores);
                 localStorage.setItem("ErroresEjecucion", Errores);
             }          
         }
