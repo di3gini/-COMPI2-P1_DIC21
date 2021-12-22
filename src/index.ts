@@ -4,10 +4,12 @@ import * as parser from 'parser'
 import { Instruccion } from './core/Abstract/Instruccion';
 import { Environment } from './core/Simbolo/Entorno';
 import { Funcion } from './core/Instruccion/Funcion';
+import { Temporal} from "../../-COMPI2-P1_DIC21/src/core/codigo3d/Temporal";
 
 
 
 const compileBtn = document.getElementById('runtimeBtn')
+const traducirBtn = document.getElementById('traductBtn')
 let data=""
 
 function datos(){
@@ -79,6 +81,58 @@ compileBtn?.addEventListener('click', () => {
     let errores = localStorage.getItem("ErroresEjecucion");
     console.log(errores);
 
+})
+
+traducirBtn?.addEventListener('click',()=>{
+      //ARMANDO EL ARBOL
+      const arbolEjecucion = parser.parse(data);
+      ASTE = arbolEjecucion;
+
+      //1RA PASADA PARA GUARDAR FUNCIONES
+      const env = new Environment(null);
+      env.setEntorno(true);
+      for (const instr of arbolEjecucion) {
+        try {
+          if (instr instanceof Funcion) {
+
+            env.setFuncion(instr.id, instr);
+            //instr.execute(env);
+          }
+        } catch (error) {
+
+        }
+      }
+
+
+      //EJECUTANDO EL ARBOL
+      /*
+      for (const instr of arbolC3D) {
+        try {
+          if (instr instanceof Instruccion) {
+            instr.execute(env);
+          }
+        } catch (error) {
+        }
+      }*/
+
+
+
+      //Traduciendo C3D
+      let Temp = new Temporal();
+
+    
+      
+      for (const instr of arbolEjecucion) {
+        try {
+          if (instr instanceof Instruccion) {
+            instr.C3D(env,Temp);
+          }
+        } catch (error) {
+        }
+      }
+
+      //console.log(Temp.GenerarC3D());
+      Codigo3D=Temp.GenerarC3D();
 })
 
 export default {}

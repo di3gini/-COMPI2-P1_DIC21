@@ -1,5 +1,5 @@
 import { Environment } from "../Simbolo/Entorno";
-
+import { Temporal } from '../codigo3d/Temporal';
 
 export abstract class Instruccion {
 
@@ -18,7 +18,7 @@ export abstract class Instruccion {
 
     public abstract graficar();
    
-
+    public abstract C3D(environment : Environment,Temp:Temporal) : any;
 
 
 
