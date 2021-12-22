@@ -3,6 +3,7 @@ import { Environment } from "../Simbolo/Entorno";
 import { Expression } from "../Abstract/Expresion";
 import { Nodo_Arbol } from "../Graficar_Arbol/nodo_arbol"
 import { Type } from "../Abstract/Objeto";
+import { Temporal } from '../codigo3d/Temporal';
 
 
 
@@ -72,9 +73,8 @@ export class Aumento extends Instruccion {
 
             return "--"
         }
-
-
-        
     }
+
+    public C3D(env:Environment,Temp:Temporal){}
 
 }
