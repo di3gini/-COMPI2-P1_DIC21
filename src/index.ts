@@ -133,6 +133,7 @@ traducirBtn?.addEventListener('click',()=>{
 
       //console.log(Temp.GenerarC3D());
       Codigo3D=Temp.GenerarC3D();
+      console.log(Codigo3D);
 })
 
 export default {}
