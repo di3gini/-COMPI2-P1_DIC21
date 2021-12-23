@@ -27,7 +27,6 @@ export class If extends Instruccion {
                 return this.InstruccionesIf.execute(env);
             }
             else {
-                console.log("entro a else");
                 return this.InstruccionesElse.execute(env);
             }
         }

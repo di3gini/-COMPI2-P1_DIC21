@@ -16,7 +16,10 @@ export class Length extends Expression {
                 const val = this.value.execute(environment);
                 if(val.type == Type.STRING ){
                     return { value: (Number(val.value.toString().length)), type: Type.NUMBER };
-                } else {
+                } else if (val.type == Type.ARRAY){
+                    return { value: (Number(val.value.length)), type: Type.NUMBER };
+                }
+                else {
                     let Errores = localStorage.getItem("ErroresEjecucion");
                     Errores = Errores + "   " + "Error Semantico:" + " No se puede operar los tipos " + val.type  +". En la linea: " + this.line + " y columna: " + this.column + "\n";
                     localStorage.setItem("ErroresEjecucion", Errores);
