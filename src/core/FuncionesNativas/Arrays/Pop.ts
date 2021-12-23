@@ -12,8 +12,6 @@ export class Pop extends Instruccion {
         }
         
         public execute(environment: Environment) {
-
-            console.log("EJECUTATE PUTA MADRE");
             const arr = this.arr.execute(environment);
             if(arr.type == Type.ARRAY) {
                 arr.value.pop();

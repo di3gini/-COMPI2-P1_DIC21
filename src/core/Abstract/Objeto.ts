@@ -5,7 +5,6 @@ export enum Type{
     NULL = 3,
     ARRAY = 4,
     VOID =8,
-    //Lo maneje aqui simplemente por comodidad de tipos al momento que retorno en el break
     BREAK = 5,
     CONTINUE=6,
     TERNARIO=7,

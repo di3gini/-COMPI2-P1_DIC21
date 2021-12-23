@@ -21,21 +21,22 @@ export class AsignacionArray extends Instruccion {
         } else {
             
             let arreglo = value.valor;
-            let arreglotiṕo = value.type;
+            let arreglotipo = value.type;
             let valoragregar = this.valor.execute(environment);
             if (this.posicion != null) {
                 let pos = this.posicion.execute(environment);
-                if ((arreglotiṕo == Type.NUMBER) && (typeof (valoragregar.value) == "number")) {
+                if (((value.type == Type.NUMBER || value.type == Type.DECIMAL)) && (typeof (arreglo[pos.value]) == "number")) {
 
                     arreglo[pos.value] = valoragregar.value;
 
 
-                } else if (arreglotiṕo == Type.STRING && typeof (valoragregar.value) == "string") {
+                } else if (value.type == Type.STRING && typeof (arreglo[pos.value]) == "string") {
                     arreglo[pos.value] = valoragregar.value;
-                } else if (arreglotiṕo == Type.BOOLEAN && typeof (valoragregar.value) == "boolean") {
+                } else if (value.type == Type.BOOLEAN && typeof (arreglo[pos.value]) == "boolean") {
                     arreglo[pos.value] = valoragregar.value;
                 } else {
                     let Errores = localStorage.getItem("ErroresEjecucion");
+                    arreglo[pos.value] = valoragregar.value;
                     Errores = Errores + "   " + "Error Semantico: No corresponde el tipo en el push. En la linea: " + this.line + " y columna: " + this.column + "\n";
                     localStorage.setItem("ErroresEjecucion", Errores);
                 }

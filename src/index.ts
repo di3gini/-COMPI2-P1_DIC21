@@ -72,7 +72,7 @@ compileBtn?.addEventListener('click', () => {
       }
     }
     catch (error) {
-      console.log(error);
+      //console.log(error);
     }
 
     let terminal = localStorage.getItem("consola");

@@ -53,6 +53,7 @@ export class Llamada extends Instruccion {
 
                 let Errores = localStorage.getItem("ErroresEjecucion");
                 Errores = Errores + "   " + "Error Semantico: La funcion " + this.id + " no recibe los mismos TIPOS de parametros. En la linea: " + this.line + " y columna: " + this.column + "\n";
+                
                 localStorage.setItem("ErroresEjecucion", Errores);
 
             }

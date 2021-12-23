@@ -199,7 +199,6 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
             | DO_WHILE {$$=$1;}//ok
             | FOR {$$=$1;}//ok
             | TRANSFERENCIA {$$=$1;}//ok
-            | TYPE {$$=$1;}
             | LLAMADA {$$=$1;}
             | PUSH_INSTR pcoma {$$=$1;}
             | POP_INSTR pcoma {$$=$1;}
@@ -441,7 +440,12 @@ LISTADO_PARAMETROS: LISTADO_PARAMETROS coma PARAMETRO
 PARAMETRO: TIPOS Identificador
         {
             $$=$$=new  Declaration($2, new Literal("null",this._$.first_line ,this._$.first_column,$1), this._$.first_line ,this._$.first_column);
-        };
+        }
+        | TIPOS llaveizq llaveder Identificador
+        {
+            $$=$$=new  Declaration($4, new Literal("null",this._$.first_line ,this._$.first_column,4), this._$.first_line ,this._$.first_column);
+        }
+        ;
 
 //============================================LLAMADA FUNCIONES===========================
 
@@ -473,23 +477,6 @@ TRANSFERENCIA : break pcoma {$$=new Break(@1.first_line, @1.first_column);}
               ;                                                                         
 
 
-
-//============================== TYPES =======================================
-TYPE: type Identificador igual CUERPO_TYPE pcoma{$$=$1+" "+$2+$3+$4+"\n";}
-    ;
-
-CUERPO_TYPE: corcheIz LISTADO_VALORES corcheDer{$$=$1+"\n"+$2+"\n"+$3;}
-           | corcheIz corcheDer{$$=$1+"\n\n"+$2;}
-           ;
-
-
-LISTADO_VALORES: LISTADO_VALORES coma CLAVE_VALOR{$$=$1+$2+"\n"+$3;}
-               | CLAVE_VALOR {$$=$1;}
-               ;
-
-
-CLAVE_VALOR: Identificador dospuntos TIPOS {$$=$1+$2+$3;}
-           ;
 
 //============================== EXPRESIONES =================================
 
