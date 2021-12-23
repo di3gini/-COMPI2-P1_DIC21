@@ -3,6 +3,7 @@ import { Retorno, Type } from "../../Abstract/Objeto";
 import { Environment } from "../../Simbolo/Entorno";
 import { Nodo_Arbol } from "../../Graficar_Arbol/nodo_arbol"
 import { Instruccion } from "../../Abstract/Instruccion";
+import { Temporal } from "../../codigo3d/Temporal";
 
 export class Pop extends Instruccion {
     
@@ -32,5 +33,8 @@ export class Pop extends Instruccion {
             value.agregarHijo(this.arr.graficar());
             NodoAritmetica.agregarHijo(value);
             return NodoAritmetica;
+        }
+        public C3D(environment: Environment, Temp: Temporal) {
+            
         }
 }
