@@ -1,4 +1,4 @@
-import { Simbolo } from "./Simbolo";
+import { Simbolo, SimboloC3D } from "./Simbolo";
 import { Type } from "../Abstract/Objeto";
 import { Funcion } from "../Instruccion/Funcion";
 
@@ -9,6 +9,9 @@ export class Environment {
     private Entorno:boolean;
     private Peso:number;
     private ContadorEtiquetas=0;
+
+    private variablesC3D: Map<string, SimboloC3D>;
+    public funcionesC3D: Map<string, Funcion>;
 
     constructor(public anterior: Environment | null) {
         this.variables = new Map();
@@ -137,4 +140,61 @@ export class Environment {
         }
         return env;
     }
+
+    //METODOS PARA C3D
+
+
+    //Guardar Variables
+    public guardarC3D(id: string, valor: any, type: Type, linea: number, columna: number,temporal:any) {
+        let env: Environment | null = this;
+        while (env != null) {
+            if (env.variablesC3D.has(id)) {
+                env.variablesC3D.set(id, new SimboloC3D(valor, id, type, temporal,this.Entorno,linea, columna));
+                return;
+            }
+            env = env.anterior;
+        }
+        this.variablesC3D.set(id, new SimboloC3D(valor, id, type,temporal,this.Entorno, linea, columna));
+
+
+    }
+
+    public guardarEntornoActualC3D(id: string, valor: any, type: Type, linea: number, columna: number,temporal:any) {
+        let env: Environment | null = this;
+        while (env != null) {
+            if (env.variablesC3D.has(id)) {
+                env.variablesC3D.set(id, new SimboloC3D(valor, id, type,temporal, this.Entorno, linea, columna));
+                return;
+            }
+            env = null;
+        }
+        this.variablesC3D.set(id, new SimboloC3D(valor, id, type,temporal, this.Entorno,linea, columna));
+
+    }
+
+
+    public getVarC3D(id: string): SimboloC3D | undefined | null {
+        let env: Environment | null = this;
+
+        while (env != null) {
+            if (env.variablesC3D.has(id)) {
+                return env.variablesC3D.get(id);
+            }
+            env = env.anterior;
+        }
+        return null;
+    }
+
+    public getVarLocalC3D(id: string): Simbolo | undefined | null {
+        let env: Environment | null = this;
+
+        while (env != null) {
+            if (env.variablesC3D.has(id)) {
+                return env.variablesC3D.get(id);
+            }
+            env = null;
+        }
+        return null;
+    }
+
 }
