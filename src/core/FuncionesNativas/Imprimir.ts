@@ -84,6 +84,26 @@ export class Print extends Instruccion {
 
     public C3D(environment: Environment, Temp: Temporal) {
         
+        const value = this.value[0].C3D(environment, Temp);
+      
+        if (value.type == Type.NUMBER) {
+            //Temp.EscribirC3D(`${Temp.NuevoTemporal()}= Heap[(int)${value.CD3}];`, environment.TipoEntorno());
+            Temp.EscribirC3D(`printf("%d \\n",(int)${Temp.TemporalActual()});`, environment.TipoEntorno());
+
+
+        } else if ( value.type == Type.STRING ) {
+       
+            Temp.EscribirC3D(`${Temp.NuevoTemporal()} = P + 0;`, environment.TipoEntorno());
+            Temp.EscribirC3D(`${Temp.NuevoTemporal()} = ${Temp.TemporalAnterior()} + 1;`, environment.TipoEntorno());
+            Temp.EscribirC3D(`Stack[(int)${Temp.TemporalActual()}] = ${value.CD3};\n`, environment.TipoEntorno());
+            Temp.EscribirC3D(`P = P + 0;`, environment.TipoEntorno());
+            Temp.EscribirC3D(`ImprimirCadena();`, environment.TipoEntorno());
+            Temp.EscribirC3D(`P = P - 0;\n`, environment.TipoEntorno());
+
+        } else if(value.type == Type.BOOLEAN){
+
+            
+        }
     }
 
 }  

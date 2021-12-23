@@ -77,16 +77,17 @@ export class Aumento extends Instruccion {
 
     public C3D(env:Environment,Temp:Temporal){
         const value = env.getVarC3D(this.id)
-
+        console.log("aumento");
         if (value == null) {
             throw new Error("La variable no existe");
         } else {
-
+            console.log("adentoro if aumento");
             if (this.type == AumentoOption.PLUSPLUS) {
-
+                console.log("antes del entorno aumento");
                 if(value.entorno){
                     Temp.EscribirC3D(`${Temp.NuevoTemporal()}= Heap[(int)${value.temporal}];`, env.TipoEntorno());
                     Temp.EscribirC3D(`Heap[(int)${value.temporal}]= ${Temp.TemporalActual()} + 1;\n`, env.TipoEntorno());
+                    console.log("esta traduciendo el aumento");
                     
                  }
                

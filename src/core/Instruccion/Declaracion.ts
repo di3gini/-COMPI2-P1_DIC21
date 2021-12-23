@@ -48,7 +48,40 @@ export class Declaration extends Instruccion {
     }
 
     public C3D(environment: Environment, Temp: Temporal) {
-        
+        const val = this.value.C3D(environment,Temp);
+
+        if (this.tipo == undefined || this.tipo == val.type) {
+
+            if(val.type==Type.NUMBER){
+           
+                if(environment.TipoEntorno()){
+
+                    Temp.EscribirC3D(Temp.NuevoTemporal()+"= H;",environment.TipoEntorno());
+                    Temp.EscribirC3D(`Heap[(int)${Temp.TemporalActual()}] = ${val.CD3};`,environment.TipoEntorno());
+                    Temp.EscribirC3D(`H = H+1;\n`,environment.TipoEntorno());
+
+                }else{  
+
+
+                }
+                environment.guardarEntornoActualC3D(this.id, val.value, val.type,this.line,this.column,Temp.TemporalActual());
+            }else if(val.type == Type.STRING){
+
+                environment.guardarEntornoActualC3D(this.id, val.value, val.type,this.line,this.column,val.CD3);
+            }else if(val.type == Type.BOOLEAN){ 
+                    
+                    Temp.EscribirC3D(Temp.NuevoTemporal()+"= H;",environment.TipoEntorno());
+                    Temp.EscribirC3D(`Heap[(int)${Temp.TemporalActual()}] = ${val.CD3};`,environment.TipoEntorno());
+                    Temp.EscribirC3D(`H = H+1;\n`,environment.TipoEntorno());
+                    environment.guardarEntornoActualC3D(this.id, val.value, val.type,this.line,this.column,Temp.NuevoTemporal());
+            }
+
+        }else{
+
+            let Errores = localStorage.getItem("ErroresEjecucion");
+            Errores= Errores +"   "+"Error Semantico: No coinciden los tipos. En la linea: "+this.line+" y columna: "+this.column +"\n";
+            localStorage.setItem("ErroresEjecucion",Errores);
+        }
     }
 
 }

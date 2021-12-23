@@ -47,5 +47,25 @@ export class Asignacion extends Instruccion {
         
     }
 
-    public C3D(env:Environment,Temp:Temporal){}
+    public C3D(env:Environment,Temp:Temporal){
+        const value = env.getVarC3D(this.id);
+
+
+        if (value == null) {
+            // throw new Error("La variable no existe");
+             let Errores = localStorage.getItem("ErroresEjecucion");
+             Errores= Errores +"   "+"Error Semantico: La variable no existe. En la linea: "+this.line+" y columna: "+this.column +"\n";
+             localStorage.setItem("ErroresEjecucion",Errores);
+         } else {
+             const val = this.expresion.C3D(env,Temp);
+             console.log(value);
+             console.log(val);
+
+             if(value.entorno){
+
+                Temp.EscribirC3D(`Heap[(int)${value.temporal}]= ${val.CD3};\n`, env.TipoEntorno());
+                
+             }
+        }
+    }
 }
