@@ -32,7 +32,7 @@ export class ListadoDeclaracion extends Instruccion {
                     
                 }
             } catch (error) {
-                console.log(error);
+                
         }
     }
 }

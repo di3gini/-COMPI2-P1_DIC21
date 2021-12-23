@@ -13,8 +13,8 @@ export class For extends Instruccion {
 
     public execute(env: Environment) {
 
-       
-        let condition = this.condition.execute(env);
+        let entorno = new Environment(env);
+        let condition = this.condition.execute(entorno);
 
         if (condition.type != Type.BOOLEAN) {
             //throw {error: "La condicion no es booleana", linea: this.line, columna : this.column};
@@ -25,18 +25,18 @@ export class For extends Instruccion {
 
         
         while (condition.value == true) {
-            const element = this.code.execute(env);
+            const element = this.code.execute(entorno);
 
             //const element = this.InstruccionesWhile.execute(env);
             if (element != null || element != undefined) {
-                console.log(element);
+                //console.log(element);
                 if (element.type == 'Break')
                     break;
                 else if (element.type == 'Continue')
                     continue;
             }
 
-            condition = this.condition.execute(env);
+            condition = this.condition.execute(entorno);
             if (condition.type != Type.BOOLEAN) {
                 //throw {error: "La condicion no es booleana", linea: this.line, columna : this.column};
                 let Errores = localStorage.getItem("ErroresEjecucion");

@@ -46,6 +46,8 @@
     const { TypeOf } = require("../core/FuncionesNativas/TypeOf");
     const { toInt } = require("../core/FuncionesNativas/toInt");
     const { toDouble } = require("../core/FuncionesNativas/toDouble");
+    const { Push } = require("../core/FuncionesNativas/Arrays/Push");
+    const { Pop } = require("../core/FuncionesNativas/Arrays/Pop");
     //CANTIDAD DE ERRORES ENCONTRADOS A PARTIR DE QUE ENCUENTRA 1  Y GUARDADNDO EN ERRS  
     let contErr=0;
     let ERRS=[];
@@ -199,6 +201,8 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
             | TRANSFERENCIA {$$=$1;}//ok
             | TYPE {$$=$1;}
             | LLAMADA {$$=$1;}
+            | PUSH_INSTR pcoma {$$=$1;}
+            | POP_INSTR pcoma {$$=$1;}
              |error  { 
                         if(this._$.first_column == 0){
                             LISTADOERRORES= LISTADOERRORES +"   "+ ERRS[0];
@@ -211,6 +215,18 @@ INSTRUCCION:  IMPRIMIR { $$=$1; } //ok
 
             ;
 
+
+PUSH_INSTR :  EXPRESION punto push parIz EXPRESION parDer
+              {
+                  $$ = new Push($1,$5,@1.first_line, @1.first_column);
+              }
+              ;
+POP_INSTR :  EXPRESION punto pop parIz parDer
+              {
+                  console.log("pop gramatica");
+                  $$ = new Pop($1,@1.first_line, @1.first_column);
+              }
+              ;
 
 
 //================================IMPRIMIR==========================ok
@@ -273,6 +289,10 @@ ASIGNACION: Identificador igual EXPRESION pcoma
           |  TIPOS llaveizq llaveder Identificador igual ASIGNACION_ARRAY pcoma
             {
                 $$ = new DeclaracionArray($4,$1,$6,@1.first_line, @1.first_column);
+            }
+          | Identificador igual ASIGNACION_ARRAY pcoma
+            {
+                $$=new AsignacionArray($1,null,$3,@1.first_line, @1.first_column);
             }
           ;
 
@@ -366,7 +386,7 @@ FOR: for parIz CONDICION_FOR parDer CUERPO_SENTENCIAS
    ;
 
 
-CONDICION_FOR: let Identificador igual EXPRESION pcoma EXPRESION pcoma EXPRESION 
+CONDICION_FOR: TIPOS Identificador igual EXPRESION pcoma EXPRESION pcoma EXPRESION 
                 {
                     $$=new CondicionFor($2,$4,$6,$8,ForOption.NORMALD,@1.first_line, @1.first_column);
                 } 

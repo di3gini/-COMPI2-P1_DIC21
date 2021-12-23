@@ -32,7 +32,7 @@ export class DeclaracionArray extends Instruccion {
                     //console.log(a);
                 }
 
-                environment.setVar(this.id, arreglo, 40, this.line, this.column);
+                environment.setVar(this.id, arreglo, Type.ARRAY, this.line, this.column);
 
             } else if (this.tipo == Type.STRING) {
                 //string
@@ -42,19 +42,19 @@ export class DeclaracionArray extends Instruccion {
                     let a = valor.execute(environment);
                     arreglo.push(a.value);
                 }
-                environment.setVar(this.id, arreglo, 41, this.line, this.column);
+                environment.setVar(this.id, arreglo, Type.ARRAY, this.line, this.column);
 
             } else if (this.tipo == Type.BOOLEAN) {
                 //boolean
                 let arreglo: boolean[] = [];
-                console.log("boolean array");
+
                 for (let valor of this.valores) {
                     let a = valor.execute(environment);
                     arreglo.push(a.value);
                     //console.log(a);
                 }
 
-                environment.setVar(this.id, arreglo, 42, this.line, this.column);
+                environment.setVar(this.id, arreglo, Type.ARRAY, this.line, this.column);
             }
     }
 

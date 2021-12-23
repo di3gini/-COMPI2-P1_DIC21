@@ -18,26 +18,29 @@ export class AsignacionArray extends Instruccion {
             Errores = Errores + "   " + "Error Semantico: La variable no existe. En la linea: " + this.line + " y columna: " + this.column + "\n";
             localStorage.setItem("ErroresEjecucion", Errores);
         } else {
+            
             let arreglo = value.valor;
             let arreglotiṕo = value.type;
             let valoragregar = this.valor.execute(environment);
-            let pos = this.posicion.execute(environment);
+            if (this.posicion != null) {
+                let pos = this.posicion.execute(environment);
+                if ((arreglotiṕo == Type.NUMBER) && (typeof (valoragregar.value) == "number")) {
 
-            if ((arreglotiṕo == Type.NUMBER) && (typeof (valoragregar.value) == "number")) {
-
-                arreglo[pos.value] = valoragregar.value;
+                    arreglo[pos.value] = valoragregar.value;
 
 
-            } else if (arreglotiṕo == Type.STRING && typeof (valoragregar.value) == "string") {
-                arreglo[pos.value] = valoragregar.value;
-            } else if (arreglotiṕo == Type.BOOLEAN && typeof (valoragregar.value) == "boolean") {
-                arreglo[pos.value] = valoragregar.value;
+                } else if (arreglotiṕo == Type.STRING && typeof (valoragregar.value) == "string") {
+                    arreglo[pos.value] = valoragregar.value;
+                } else if (arreglotiṕo == Type.BOOLEAN && typeof (valoragregar.value) == "boolean") {
+                    arreglo[pos.value] = valoragregar.value;
+                } else {
+                    let Errores = localStorage.getItem("ErroresEjecucion");
+                    Errores = Errores + "   " + "Error Semantico: No corresponde el tipo en el push. En la linea: " + this.line + " y columna: " + this.column + "\n";
+                    localStorage.setItem("ErroresEjecucion", Errores);
+                }
             } else {
-                let Errores = localStorage.getItem("ErroresEjecucion");
-                Errores = Errores + "   " + "Error Semantico: No corresponde el tipo en el push. En la linea: " + this.line + " y columna: " + this.column + "\n";
-                localStorage.setItem("ErroresEjecucion", Errores);
+                arreglo = [];
             }
-
 
         }
     }
