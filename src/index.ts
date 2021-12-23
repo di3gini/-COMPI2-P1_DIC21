@@ -14,6 +14,7 @@ let data=""
 
 function datos(){
     data=(document.getElementById('editorCodigo') as HTMLInputElement).value;
+    data = data + "\n main();";
 }
 
 let CodigoEntrada = "";
@@ -77,8 +78,10 @@ compileBtn?.addEventListener('click', () => {
 
     let terminal = localStorage.getItem("consola");
     Salida = terminal;
-    console.log(Salida);
+    (document.getElementById('editorConsola') as HTMLInputElement).value = Salida;
+    
     let errores = localStorage.getItem("ErroresEjecucion");
+    (document.getElementById('editorErrores') as HTMLInputElement).value = errores;
     console.log(errores);
 
 })
