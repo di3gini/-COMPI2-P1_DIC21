@@ -75,6 +75,35 @@ export class Aumento extends Instruccion {
         }
     }
 
-    public C3D(env:Environment,Temp:Temporal){}
+    public C3D(env:Environment,Temp:Temporal){
+        const value = env.getVarC3D(this.id)
+
+        if (value == null) {
+            throw new Error("La variable no existe");
+        } else {
+
+            if (this.type == AumentoOption.PLUSPLUS) {
+
+                if(value.entorno){
+                    Temp.EscribirC3D(`${Temp.NuevoTemporal()}= Heap[(int)${value.temporal}];`, env.TipoEntorno());
+                    Temp.EscribirC3D(`Heap[(int)${value.temporal}]= ${Temp.TemporalActual()} + 1;\n`, env.TipoEntorno());
+                    
+                 }
+               
+                return { value: Number(value.valor + 1), type: value.type }
+            } else if (this.type == AumentoOption.LESSLESS) {
+
+                if(value.entorno){
+
+                    Temp.EscribirC3D(`${Temp.NuevoTemporal()}= Heap[(int)${value.temporal}];`, env.TipoEntorno());
+                    Temp.EscribirC3D(`Heap[(int)${value.temporal}]= ${Temp.TemporalActual()} - 1;\n`, env.TipoEntorno());
+                    
+                 }
+                 
+                return { value: Number(value.valor - 1), type: value.type }
+            }
+        
+        }
+        }
 
 }
